@@ -33,7 +33,9 @@ class SettingsPage extends StatelessWidget {
             _buildSettingsTile(
               icon: Icons.language,
               title: 'language'.tr,
-              subtitle: controller.getLanguageName(controller.selectedLanguage.value),
+              subtitle: controller.getLanguageName(
+                controller.selectedLanguage.value,
+              ),
               onTap: () => _showLanguageDialog(context, controller),
             ),
             _buildSettingsTile(
@@ -45,7 +47,9 @@ class SettingsPage extends StatelessWidget {
             _buildSettingsTile(
               icon: Icons.text_fields,
               title: 'font_size'.tr,
-              subtitle: controller.getFontSizeName(controller.selectedFontSize.value),
+              subtitle: controller.getFontSizeName(
+                controller.selectedFontSize.value,
+              ),
               onTap: () => _showFontSizeDialog(context, controller),
             ),
             _buildSwitchTile(
@@ -112,7 +116,9 @@ class SettingsPage extends StatelessWidget {
             _buildSettingsTile(
               icon: Icons.download,
               title: 'auto_download'.tr,
-              subtitle: controller.enableAutoDownload.value ? 'enabled'.tr : 'disabled'.tr,
+              subtitle: controller.enableAutoDownload.value
+                  ? 'enabled'.tr
+                  : 'disabled'.tr,
               onTap: () => _showAutoDownloadDialog(context, controller),
             ),
             _buildSettingsTile(
@@ -204,16 +210,10 @@ class SettingsPage extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: textColor ?? AppColors.primary,
-        ),
+        leading: Icon(icon, color: textColor ?? AppColors.primary),
         title: Text(
           title,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: textColor,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w500, color: textColor),
         ),
         subtitle: Text(
           subtitle,
@@ -236,14 +236,8 @@ class SettingsPage extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: AppColors.primary,
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
+        leading: Icon(icon, color: AppColors.primary),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
         trailing: Switch(
           value: value,
           onChanged: onChanged,
@@ -253,7 +247,10 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  void _showLanguageDialog(BuildContext context, SettingsController controller) {
+  void _showLanguageDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -265,11 +262,14 @@ class SettingsPage extends StatelessWidget {
             itemCount: controller.languages.length,
             itemBuilder: (context, index) {
               final language = controller.languages[index];
-              final isSelected = language['code'] == controller.selectedLanguage.value;
-              
+              final isSelected =
+                  language['code'] == controller.selectedLanguage.value;
+
               return ListTile(
                 title: Text(language['name']!),
-                trailing: isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
+                trailing: isSelected
+                    ? const Icon(Icons.check, color: AppColors.primary)
+                    : null,
                 onTap: () {
                   controller.changeLanguage(language['code']!);
                   Navigator.pop(context);
@@ -291,10 +291,12 @@ class SettingsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: controller.themes.map((theme) {
             final isSelected = theme['value'] == controller.selectedTheme.value;
-            
+
             return ListTile(
               title: Text(theme['name']!),
-              trailing: isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
+              trailing: isSelected
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
               onTap: () {
                 controller.changeTheme(theme['value']!);
                 Navigator.pop(context);
@@ -306,7 +308,10 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  void _showFontSizeDialog(BuildContext context, SettingsController controller) {
+  void _showFontSizeDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -314,11 +319,14 @@ class SettingsPage extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: controller.fontSizes.map((fontSize) {
-            final isSelected = fontSize['value'] == controller.selectedFontSize.value;
-            
+            final isSelected =
+                fontSize['value'] == controller.selectedFontSize.value;
+
             return ListTile(
               title: Text(fontSize['name']!),
-              trailing: isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
+              trailing: isSelected
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
               onTap: () {
                 controller.selectedFontSize.value = fontSize['value']!;
                 controller.updateAppSettings();
@@ -331,7 +339,10 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  void _showDataUsageDialog(BuildContext context, SettingsController controller) {
+  void _showDataUsageDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -340,10 +351,12 @@ class SettingsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: controller.dataUsageModes.map((mode) {
             final isSelected = mode['value'] == controller.dataUsageMode.value;
-            
+
             return ListTile(
               title: Text(mode['name']!),
-              trailing: isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
+              trailing: isSelected
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
               onTap: () {
                 controller.dataUsageMode.value = mode['value']!;
                 controller.updateAppSettings();
@@ -356,7 +369,10 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  void _showAutoDownloadDialog(BuildContext context, SettingsController controller) {
+  void _showAutoDownloadDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -374,13 +390,19 @@ class SettingsPage extends StatelessWidget {
             ),
             if (controller.enableAutoDownload.value) ...[
               const Divider(),
-              Text('download_quality'.tr, style: const TextStyle(fontWeight: FontWeight.w500)),
+              Text(
+                'download_quality'.tr,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
               ...controller.downloadQualities.map((quality) {
-                final isSelected = quality['value'] == controller.downloadQuality.value;
-                
+                final isSelected =
+                    quality['value'] == controller.downloadQuality.value;
+
                 return ListTile(
                   title: Text(quality['name']!),
-                  trailing: isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
+                  trailing: isSelected
+                      ? const Icon(Icons.check, color: AppColors.primary)
+                      : null,
                   onTap: () {
                     controller.downloadQuality.value = quality['value']!;
                     controller.updateAppSettings();
@@ -414,7 +436,7 @@ class SettingsPage extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              Get.find<SettingsController>()._authService.logout();
+              Get.find<SettingsController>().logout();
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: Text('logout'.tr),

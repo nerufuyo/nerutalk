@@ -25,6 +25,7 @@ abstract class AppRoutes {
 
   // Call Routes
   static const String calls = '/calls';
+  static const String newCall = '/new-call';
   static const String videoCall = '/video-call';
   static const String audioCall = '/audio-call';
   static const String incomingCall = '/incoming-call';
@@ -48,6 +49,7 @@ abstract class AppRoutes {
   static const String privacy = '/privacy';
   static const String security = '/security';
   static const String notifications = '/notifications';
+  static const String notificationPreferences = '/notification-preferences';
   static const String dataUsage = '/data-usage';
   static const String storage = '/storage';
   static const String language = '/language';
@@ -63,6 +65,7 @@ abstract class AppRoutes {
   static const String audioPlayer = '/audio-player';
   static const String documentViewer = '/document-viewer';
   static const String gallery = '/gallery';
+  static const String stickers = '/stickers';
   static const String camera = '/camera';
 
   // Search Routes
@@ -124,7 +127,7 @@ abstract class AppRoutes {
       noInternet,
       maintenance,
     ];
-    
+
     return !publicRoutes.contains(route);
   }
 
@@ -140,11 +143,13 @@ abstract class AppRoutes {
       return 'Contacts';
     } else if (route.startsWith('/profile') || _profileRoutes.contains(route)) {
       return 'Profile';
-    } else if (route.startsWith('/settings') || _settingsRoutes.contains(route)) {
+    } else if (route.startsWith('/settings') ||
+        _settingsRoutes.contains(route)) {
       return 'Settings';
     } else if (route.startsWith('/media') || _mediaRoutes.contains(route)) {
       return 'Media';
-    } else if (route.startsWith('/location') || _locationRoutes.contains(route)) {
+    } else if (route.startsWith('/location') ||
+        _locationRoutes.contains(route)) {
       return 'Location';
     } else {
       return 'General';

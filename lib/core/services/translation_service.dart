@@ -1,8 +1,22 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/app_strings.dart';
+
+/// Translation service for accessing translations
+class TranslationService extends GetxService {
+  static AppTranslations get translations => AppTranslations();
+
+  String tr(String key, {Map<String, String>? parameters}) {
+    return AppTranslations.tr(key, parameters: parameters);
+  }
+
+  Future<void> changeLanguage(String languageCode) async {
+    return AppTranslations.changeLanguage(languageCode);
+  }
+}
 
 /// Internationalization service for handling multiple languages
 /// Provides translation functionality with fallback support
@@ -46,7 +60,9 @@ class AppTranslations extends Translations {
 
     for (final language in languages) {
       try {
-        final String jsonString = await rootBundle.loadString(language['file']!);
+        final String jsonString = await rootBundle.loadString(
+          language['file']!,
+        );
         final Map<String, dynamic> jsonMap = json.decode(jsonString);
         _translations[language['code']!] = Map<String, String>.from(jsonMap);
       } catch (e) {
@@ -62,15 +78,17 @@ class AppTranslations extends Translations {
 
   /// Get translated string with optional parameters
   static String tr(String key, {Map<String, String>? parameters}) {
-    String translation = Get.tr(key);
-    
+    final currentCode = getCurrentLanguageCode();
+    final localeKey = _getLocaleKeyFromCode(currentCode);
+    String translation = _translations[localeKey]?[key] ?? key;
+
     // Replace parameters if provided
     if (parameters != null) {
       parameters.forEach((param, value) {
         translation = translation.replaceAll('{$param}', value);
       });
     }
-    
+
     return translation;
   }
 
@@ -164,16 +182,17 @@ class AppTranslations extends Translations {
 
   /// Check if locale is supported
   static bool _isLocaleSupported(Locale locale) {
-    return supportedLocales.any((supportedLocale) =>
-        supportedLocale.languageCode == locale.languageCode);
+    return supportedLocales.any(
+      (supportedLocale) => supportedLocale.languageCode == locale.languageCode,
+    );
   }
 
   /// Initialize app language on startup
   static Future<void> initializeLanguage() async {
     await initialize();
-    
+
     final savedLanguage = await getSavedLanguage();
-    
+
     if (savedLanguage != null) {
       // Use saved language
       final locale = getLocaleFromLanguageCode(savedLanguage);
@@ -182,7 +201,7 @@ class AppTranslations extends Translations {
       // Use system language if supported, otherwise fallback
       final systemLocale = getSystemLocale();
       Get.updateLocale(systemLocale);
-      
+
       // Save the chosen language for next time
       final languageCode = _getLanguageCodeFromLocale(systemLocale);
       await saveLanguage(languageCode);
@@ -202,21 +221,13 @@ class AppTranslations extends Translations {
         'name': 'Indonesian',
         'nativeName': 'Bahasa Indonesia',
       },
-      {
-        'code': AppStrings.chineseCode,
-        'name': 'Chinese',
-        'nativeName': '中文',
-      },
+      {'code': AppStrings.chineseCode, 'name': 'Chinese', 'nativeName': '中文'},
       {
         'code': AppStrings.japaneseCode,
         'name': 'Japanese',
         'nativeName': '日本語',
       },
-      {
-        'code': AppStrings.koreanCode,
-        'name': 'Korean',
-        'nativeName': '한국어',
-      },
+      {'code': AppStrings.koreanCode, 'name': 'Korean', 'nativeName': '한국어'},
     ];
   }
 
@@ -230,10 +241,16 @@ class AppTranslations extends Translations {
         if (difference.inMinutes == 0) {
           return tr('just_now');
         } else {
-          return tr('minutes_ago', parameters: {'minutes': difference.inMinutes.toString()});
+          return tr(
+            'minutes_ago',
+            parameters: {'minutes': difference.inMinutes.toString()},
+          );
         }
       } else {
-        return tr('hours_ago', parameters: {'hours': difference.inHours.toString()});
+        return tr(
+          'hours_ago',
+          parameters: {'hours': difference.inHours.toString()},
+        );
       }
     } else if (difference.inDays == 1) {
       return tr('yesterday');

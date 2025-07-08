@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nerutalk/domain/models/call_models.dart';
 import 'package:nerutalk/presentation/routes/app_routes.dart';
@@ -11,7 +12,7 @@ class VideoCallController extends GetxController {
   final RxString callDuration = '00:00'.obs;
   final RxString otherParticipantName = 'Unknown User'.obs;
   final RxList<CallParticipant> participants = <CallParticipant>[].obs;
-  
+
   Timer? _callTimer;
   DateTime? _callStartTime;
   String? callId;
@@ -21,8 +22,9 @@ class VideoCallController extends GetxController {
     super.onInit();
     final arguments = Get.arguments as Map<String, dynamic>?;
     callId = arguments?['callId'];
-    otherParticipantName.value = arguments?['participantName'] ?? 'Unknown User';
-    
+    otherParticipantName.value =
+        arguments?['participantName'] ?? 'Unknown User';
+
     _initializeCall();
     _startControlsTimer();
   }
@@ -37,14 +39,14 @@ class VideoCallController extends GetxController {
   void _initializeCall() {
     // TODO: Initialize Agora RTC Engine
     // TODO: Join channel with call ID
-    
+
     // Simulate call connection
     Future.delayed(const Duration(seconds: 2), () {
       callStatus.value = 'ongoing';
       _callStartTime = DateTime.now();
       _startCallTimer();
     });
-    
+
     // Mock participants
     participants.value = [
       CallParticipant(
@@ -84,7 +86,7 @@ class VideoCallController extends GetxController {
 
   void toggleControls() {
     showControls.value = !showControls.value;
-    
+
     if (showControls.value) {
       _startControlsTimer();
     }
@@ -92,9 +94,9 @@ class VideoCallController extends GetxController {
 
   void toggleAudio() {
     isAudioEnabled.value = !isAudioEnabled.value;
-    
+
     // TODO: Enable/disable audio in Agora RTC
-    
+
     // Update participant state
     final currentUserIndex = participants.indexWhere(
       (p) => p.userId == 'current_user',
@@ -104,7 +106,7 @@ class VideoCallController extends GetxController {
         isAudioEnabled: isAudioEnabled.value,
       );
     }
-    
+
     Get.snackbar(
       'Audio',
       isAudioEnabled.value ? 'Microphone enabled' : 'Microphone disabled',
@@ -115,9 +117,9 @@ class VideoCallController extends GetxController {
 
   void toggleVideo() {
     isVideoEnabled.value = !isVideoEnabled.value;
-    
+
     // TODO: Enable/disable video in Agora RTC
-    
+
     // Update participant state
     final currentUserIndex = participants.indexWhere(
       (p) => p.userId == 'current_user',
@@ -127,7 +129,7 @@ class VideoCallController extends GetxController {
         isVideoEnabled: isVideoEnabled.value,
       );
     }
-    
+
     Get.snackbar(
       'Video',
       isVideoEnabled.value ? 'Camera enabled' : 'Camera disabled',
@@ -142,19 +144,13 @@ class VideoCallController extends GetxController {
         title: const Text('End Call'),
         content: const Text('Are you sure you want to end this call?'),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               Get.back();
               _endCall();
             },
-            child: const Text(
-              'End Call',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('End Call', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -164,10 +160,10 @@ class VideoCallController extends GetxController {
   void _endCall() {
     callStatus.value = 'ended';
     _endCallCleanup();
-    
+
     // TODO: Leave Agora channel
     // TODO: Send end call event to backend
-    
+
     Get.offAllNamed(AppRoutes.home);
     Get.snackbar(
       'Call Ended',

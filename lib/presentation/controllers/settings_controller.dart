@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/services/settings_service.dart';
 import '../../core/services/auth_service.dart';
@@ -192,8 +193,10 @@ class SettingsController extends GetxController {
       screenLock.value = securitySettings.screenLock;
       lockTimeout.value = securitySettings.lockTimeout;
       incognitoKeyboard.value = securitySettings.incognitoKeyboard;
-      showSecurityNotifications.value = securitySettings.showSecurityNotifications;
-      requireAuthForSensitiveActions.value = securitySettings.requireAuthForSensitiveActions;
+      showSecurityNotifications.value =
+          securitySettings.showSecurityNotifications;
+      requireAuthForSensitiveActions.value =
+          securitySettings.requireAuthForSensitiveActions;
       trustedDevices.value = securitySettings.trustedDevices;
       securityLogs.value = securitySettings.securityLogs;
     }
@@ -296,12 +299,15 @@ class SettingsController extends GetxController {
           whoCanAddMeToGroups: whoCanAddMeToGroups.value,
           readReceipts: readReceipts.value,
           typingIndicators: typingIndicators.value,
-          blockedUsers: blockedUsers.value,
+          blockedUsers: blockedUsers.toList(),
         );
         await _settingsService.updatePrivacySettings(updatedSettings);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update privacy settings: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to update privacy settings: ${e.toString()}',
+      );
     }
   }
 
@@ -318,12 +324,15 @@ class SettingsController extends GetxController {
           incognitoKeyboard: incognitoKeyboard.value,
           showSecurityNotifications: showSecurityNotifications.value,
           requireAuthForSensitiveActions: requireAuthForSensitiveActions.value,
-          trustedDevices: trustedDevices.value,
+          trustedDevices: trustedDevices.toList(),
         );
         await _settingsService.updateSecuritySettings(updatedSettings);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update security settings: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to update security settings: ${e.toString()}',
+      );
     }
   }
 
@@ -366,12 +375,18 @@ class SettingsController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to toggle two-factor authentication: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to toggle two-factor authentication: ${e.toString()}',
+      );
     }
   }
 
   /// Change password
-  Future<void> changePassword(String currentPassword, String newPassword) async {
+  Future<void> changePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
     try {
       await _settingsService.changePassword(currentPassword, newPassword);
     } catch (e) {
@@ -441,5 +456,15 @@ class SettingsController extends GetxController {
       orElse: () => {'name': 'Medium'},
     );
     return fontSize['name']!;
+  }
+
+  /// Logout user
+  Future<void> logout() async {
+    try {
+      await _authService.logout();
+      Get.offAllNamed('/login');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to logout: ${e.toString()}');
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/services/auth_service.dart';
@@ -10,25 +11,25 @@ class HomeController extends GetxController {
   final selectedIndex = 0.obs;
   final isLoading = false.obs;
   final chats = <Map<String, dynamic>>[].obs;
-  
+
   // Services
   final AuthService _authService = Get.find<AuthService>();
   final NetworkService _networkService = Get.find<NetworkService>();
   final ThemeController _themeController = Get.find<ThemeController>();
-  
+
   // Computed properties
-  bool get isDarkMode => _themeController.isDarkMode.value;
-  
+  bool get isDarkMode => _themeController.isDarkMode;
+
   @override
   void onInit() {
     super.onInit();
     _loadChats();
   }
-  
+
   /// Handle bottom navigation tab selection
   void onTabSelected(int index) {
     selectedIndex.value = index;
-    
+
     // Navigate to appropriate pages based on tab
     switch (index) {
       case 0: // Chats
@@ -53,12 +54,12 @@ class HomeController extends GetxController {
         break;
     }
   }
-  
+
   /// Toggle between light and dark theme
   void toggleTheme() {
     _themeController.toggleTheme();
   }
-  
+
   /// Open search functionality
   void openSearch() {
     // TODO: Implement search functionality
@@ -68,7 +69,7 @@ class HomeController extends GetxController {
       snackPosition: SnackPosition.BOTTOM,
     );
   }
-  
+
   /// Handle menu selection
   void onMenuSelected(String value) {
     switch (value) {
@@ -86,7 +87,7 @@ class HomeController extends GetxController {
         break;
     }
   }
-  
+
   /// Show logout confirmation dialog
   void _showLogoutDialog() {
     Get.dialog(
@@ -112,14 +113,14 @@ class HomeController extends GetxController {
       ),
     );
   }
-  
+
   /// Perform logout
   Future<void> _logout() async {
     try {
       isLoading.value = true;
       await _authService.logout();
       Get.offAllNamed(AppRoutes.login);
-      
+
       Get.snackbar(
         AppStrings.success.tr,
         AppStrings.logoutSuccess.tr,
@@ -135,25 +136,22 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
-  
+
   /// Start a new chat
   void startNewChat() {
     Get.toNamed(AppRoutes.newChat);
   }
-  
+
   /// Open a specific chat
   void openChat(Map<String, dynamic> chat) {
-    Get.toNamed(
-      AppRoutes.chatDetail,
-      arguments: {'chatId': chat['id']},
-    );
+    Get.toNamed(AppRoutes.chatDetail, arguments: {'chatId': chat['id']});
   }
-  
+
   /// Load chats from API or local storage
   Future<void> _loadChats() async {
     try {
       isLoading.value = true;
-      
+
       // Check if we have internet connection
       if (_networkService.isOnline) {
         // Load from API
@@ -173,13 +171,13 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
-  
+
   /// Load chats from API
   Future<void> _loadChatsFromApi() async {
     // TODO: Implement API call to load chats
     // Simulate API call for now
     await Future.delayed(const Duration(seconds: 1));
-    
+
     // Mock data
     chats.value = [
       {
@@ -205,16 +203,16 @@ class HomeController extends GetxController {
       },
     ];
   }
-  
+
   /// Load chats from local storage
   Future<void> _loadChatsFromStorage() async {
     // TODO: Implement loading from local storage
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     // For now, just show empty state or cached data
     chats.value = [];
   }
-  
+
   /// Refresh chats
   Future<void> refreshChats() async {
     await _loadChats();

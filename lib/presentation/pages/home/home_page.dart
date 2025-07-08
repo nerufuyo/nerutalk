@@ -23,14 +23,16 @@ class HomePage extends GetView<HomeController> {
             onPressed: controller.openSearch,
           ),
           // Theme toggle button
-          Obx(() => IconButton(
-            icon: Icon(
-              controller.isDarkMode.value
-                  ? Icons.light_mode_outlined
-                  : Icons.dark_mode_outlined,
+          Obx(
+            () => IconButton(
+              icon: Icon(
+                controller.isDarkMode
+                    ? Icons.light_mode_outlined
+                    : Icons.dark_mode_outlined,
+              ),
+              onPressed: controller.toggleTheme,
             ),
-            onPressed: controller.toggleTheme,
-          )),
+          ),
           // More options
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
@@ -70,58 +72,61 @@ class HomePage extends GetView<HomeController> {
           ),
         ],
       ),
-      body: Obx(() => IndexedStack(
-        index: controller.selectedIndex.value,
-        children: const [
-          // Chats tab
-          _ChatsTab(),
-          // Contacts tab
-          _ContactsTab(),
-          // Calls tab
-          _CallsTab(),
-          // Settings tab
-          _SettingsTab(),
-        ],
-      )),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-        currentIndex: controller.selectedIndex.value,
-        onTap: controller.onTabSelected,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.grey,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.chat_bubble_outline),
-            activeIcon: const Icon(Icons.chat_bubble),
-            label: AppStrings.chats.tr,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.contacts_outlined),
-            activeIcon: const Icon(Icons.contacts),
-            label: AppStrings.contacts.tr,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.call_outlined),
-            activeIcon: const Icon(Icons.call),
-            label: AppStrings.calls.tr,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings_outlined),
-            activeIcon: const Icon(Icons.settings),
-            label: AppStrings.settings.tr,
-          ),
-        ],
-      )),
-      floatingActionButton: Obx(() => controller.selectedIndex.value == 0
-          ? FloatingActionButton(
-              onPressed: controller.startNewChat,
-              backgroundColor: AppColors.primary,
-              child: const Icon(
-                Icons.chat_outlined,
-                color: Colors.white,
-              ),
-            )
-          : const SizedBox.shrink()),
+      body: Obx(
+        () => IndexedStack(
+          index: controller.selectedIndex.value,
+          children: const [
+            // Chats tab
+            _ChatsTab(),
+            // Contacts tab
+            _ContactsTab(),
+            // Calls tab
+            _CallsTab(),
+            // Settings tab
+            _SettingsTab(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          currentIndex: controller.selectedIndex.value,
+          onTap: controller.onTabSelected,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: AppColors.primary,
+          unselectedItemColor: AppColors.grey,
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.chat_bubble_outline),
+              activeIcon: const Icon(Icons.chat_bubble),
+              label: AppStrings.chats.tr,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.contacts_outlined),
+              activeIcon: const Icon(Icons.contacts),
+              label: AppStrings.contacts.tr,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.call_outlined),
+              activeIcon: const Icon(Icons.call),
+              label: AppStrings.calls.tr,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.settings_outlined),
+              activeIcon: const Icon(Icons.settings),
+              label: AppStrings.settings.tr,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Obx(
+        () => controller.selectedIndex.value == 0
+            ? FloatingActionButton(
+                onPressed: controller.startNewChat,
+                backgroundColor: AppColors.primary,
+                child: const Icon(Icons.chat_outlined, color: Colors.white),
+              )
+            : const SizedBox.shrink(),
+      ),
     );
   }
 }
@@ -133,9 +138,7 @@ class _ChatsTab extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Center(child: CircularProgressIndicator());
       }
 
       if (controller.chats.isEmpty) {
@@ -151,16 +154,16 @@ class _ChatsTab extends GetView<HomeController> {
               const SizedBox(height: 16),
               Text(
                 AppStrings.noChatsYet.tr,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.grey,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(color: AppColors.grey),
               ),
               const SizedBox(height: 8),
               Text(
                 AppStrings.startFirstChat.tr,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.grey,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppColors.grey),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -210,9 +213,9 @@ class _ChatsTab extends GetView<HomeController> {
                 children: [
                   Text(
                     chat['time']?.toString() ?? '',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.grey,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: AppColors.grey),
                   ),
                   if (chat['unreadCount'] != null && chat['unreadCount'] > 0)
                     Container(
@@ -262,9 +265,9 @@ class _ContactsTab extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             AppStrings.contactsComingSoon.tr,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColors.grey,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(color: AppColors.grey),
           ),
         ],
       ),
@@ -289,9 +292,9 @@ class _CallsTab extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             AppStrings.callsComingSoon.tr,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColors.grey,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(color: AppColors.grey),
           ),
         ],
       ),
@@ -316,9 +319,9 @@ class _SettingsTab extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             AppStrings.settingsComingSoon.tr,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColors.grey,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(color: AppColors.grey),
           ),
         ],
       ),

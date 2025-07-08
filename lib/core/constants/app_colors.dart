@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 /// Application color constants for NeruTalk
 /// Provides consistent color scheme for light and dark themes
@@ -10,11 +11,11 @@ class AppColors {
   static const Color primaryBlue = Color(0xFF2196F3);
   static const Color primaryBlueDark = Color(0xFF1976D2);
   static const Color primaryBlueLight = Color(0xFF64B5F6);
-  
+
   static const Color secondaryTeal = Color(0xFF00BCD4);
   static const Color secondaryTealDark = Color(0xFF0097A7);
   static const Color secondaryTealLight = Color(0xFF4DD0E1);
-  
+
   static const Color accentGreen = Color(0xFF4CAF50);
   static const Color accentGreenDark = Color(0xFF388E3C);
   static const Color accentGreenLight = Color(0xFF81C784);
@@ -23,7 +24,19 @@ class AppColors {
   static const Color primary = primaryBlue;
   static const Color secondary = secondaryTeal;
   static const Color accent = accentGreen;
-  
+
+  // Context-dependent getters for current theme
+  static Color get surface => getSurfaceColor(Get.isDarkMode);
+  static Color get border => getBorderColor(Get.isDarkMode);
+  static Color get card => getCardColor(Get.isDarkMode);
+  static Color get divider => getDividerColor(Get.isDarkMode);
+  static Color get onSurface => getOnSurfaceColor(Get.isDarkMode);
+  static Color get onBackground => getOnBackgroundColor(Get.isDarkMode);
+  static Color get shimmerBase => getShimmerBaseColor(Get.isDarkMode);
+  static Color get shimmerHighlight => getShimmerHighlightColor(Get.isDarkMode);
+  static Color get inputFill => getInputFillColor(Get.isDarkMode);
+  static Color get inputBorder => getInputBorderColor(Get.isDarkMode);
+
   // Common colors
   static const Color grey = Color(0xFF9E9E9E);
   static const Color background = lightBackground;
@@ -40,7 +53,7 @@ class AppColors {
   static const Color lightOnBackground = Color(0xFF000000);
   static const Color lightOnSurface = Color(0xFF212121);
   static const Color lightOnSurfaceVariant = Color(0xFF757575);
-  
+
   // Dark Theme Colors
   static const Color darkBackground = Color(0xFF121212);
   static const Color darkSurface = Color(0xFF1E1E1E);
@@ -54,7 +67,7 @@ class AppColors {
   static const Color myMessageBackgroundDark = Color(0xFF1976D2);
   static const Color otherMessageBackground = Color(0xFFE0E0E0);
   static const Color otherMessageBackgroundDark = Color(0xFF424242);
-  
+
   static const Color myMessageText = Color(0xFFFFFFFF);
   static const Color otherMessageText = Color(0xFF000000);
   static const Color otherMessageTextDark = Color(0xFFFFFFFF);
@@ -64,7 +77,7 @@ class AppColors {
   static const Color errorRed = Color(0xFFF44336);
   static const Color warningOrange = Color(0xFFFF9800);
   static const Color infoBlue = Color(0xFF2196F3);
-  
+
   // Online Status Colors
   static const Color onlineGreen = Color(0xFF4CAF50);
   static const Color awayYellow = Color(0xFFFFC107);
@@ -75,7 +88,7 @@ class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
   static const Color transparent = Colors.transparent;
-  
+
   // Grey Scale
   static const Color grey50 = Color(0xFFFAFAFA);
   static const Color grey100 = Color(0xFFF5F5F5);
@@ -91,7 +104,7 @@ class AppColors {
   // Border Colors
   static const Color lightBorder = Color(0xFFE0E0E0);
   static const Color darkBorder = Color(0xFF424242);
-  
+
   // Divider Colors
   static const Color lightDivider = Color(0xFFE0E0E0);
   static const Color darkDivider = Color(0xFF424242);

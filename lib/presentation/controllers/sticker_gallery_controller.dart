@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nerutalk/domain/models/media_models.dart';
 
@@ -15,10 +16,10 @@ class StickerGalleryController extends GetxController {
   Future<void> loadStickerPacks() async {
     try {
       isLoading.value = true;
-      
+
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(seconds: 1));
-      
+
       // Mock data for now
       stickerPacks.value = [
         StickerPack(
@@ -100,7 +101,7 @@ class StickerGalleryController extends GetxController {
           createdAt: DateTime.now(),
         ),
       ];
-      
+
       // Select first installed pack by default
       final firstInstalledPack = stickerPacks.firstWhere(
         (pack) => pack.isInstalled,
@@ -119,7 +120,7 @@ class StickerGalleryController extends GetxController {
       _showInstallDialog(pack);
       return;
     }
-    
+
     selectedPack.value = pack;
   }
 
@@ -129,10 +130,7 @@ class StickerGalleryController extends GetxController {
         title: Text('Install ${pack.name}'),
         content: Text(pack.description),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               Get.back();
@@ -152,14 +150,14 @@ class StickerGalleryController extends GetxController {
 
   void _installPack(StickerPack pack) {
     // TODO: Implement actual installation logic
-    
+
     final updatedPack = pack.copyWith(isInstalled: true);
     final index = stickerPacks.indexWhere((p) => p.id == pack.id);
     if (index != -1) {
       stickerPacks[index] = updatedPack;
       selectedPack.value = updatedPack;
     }
-    
+
     Get.snackbar(
       'Success',
       '${pack.name} installed successfully!',

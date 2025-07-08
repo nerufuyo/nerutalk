@@ -136,9 +136,9 @@ class RegisterController extends GetxController {
     
     try {
       final success = await _authService.register(
-        name: nameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passwordController.text,
+        emailController.text.trim(),
+        passwordController.text,
+        nameController.text.trim(),
       );
       
       if (success) {

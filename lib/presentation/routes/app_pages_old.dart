@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app_routes.dart';
 import '../pages/splash/splash_page.dart';
@@ -62,59 +63,58 @@ abstract class AppPages {
     ),
 
     // Chat Pages
-    GetPage(
-      name: AppRoutes.chats,
-      page: () => const ChatsPage(),
-      binding: ChatsBinding(),
-      transition: Transition.cupertino,
-      transitionDuration: const Duration(milliseconds: 300),
-      middlewares: [AuthMiddleware()],
-    ),
+    // GetPage(
+    //   name: AppRoutes.chats,
+    //   page: () => const ChatsPage(),
+    //   binding: ChatsBinding(),
+    //   transition: Transition.cupertino,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    //   middlewares: [AuthMiddleware()],
+    // ),
 
     // Profile Pages
-    GetPage(
-      name: AppRoutes.profile,
-      page: () => const ProfilePage(),
-      binding: ProfileBinding(),
-      transition: Transition.cupertino,
-      transitionDuration: const Duration(milliseconds: 300),
-      middlewares: [AuthMiddleware()],
-    ),
+    // GetPage(
+    //   name: AppRoutes.profile,
+    //   page: () => const ProfilePage(),
+    //   binding: ProfileBinding(),
+    //   transition: Transition.cupertino,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    //   middlewares: [AuthMiddleware()],
+    // ),
 
     // Settings Pages
-    GetPage(
-      name: AppRoutes.settings,
-      page: () => const SettingsPage(),
-      binding: SettingsBinding(),
-      transition: Transition.cupertino,
-      transitionDuration: const Duration(milliseconds: 300),
-      middlewares: [AuthMiddleware()],
-    ),
+    // GetPage(
+    //   name: AppRoutes.settings,
+    //   page: () => const SettingsPage(),
+    //   binding: SettingsBinding(),
+    //   transition: Transition.cupertino,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    //   middlewares: [AuthMiddleware()],
+    // ),
 
     // Error Pages
-    GetPage(
-      name: AppRoutes.error,
-      page: () => const ErrorPage(),
-      binding: ErrorBinding(),
-      transition: Transition.fade,
-      transitionDuration: const Duration(milliseconds: 300),
-    ),
+    // GetPage(
+    //   name: AppRoutes.error,
+    //   page: () => const ErrorPage(),
+    //   binding: ErrorBinding(),
+    //   transition: Transition.fade,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    // ),
 
-    GetPage(
-      name: AppRoutes.notFound,
-      page: () => const ErrorPage(),
-      binding: ErrorBinding(),
-      transition: Transition.fade,
-      transitionDuration: const Duration(milliseconds: 300),
-    ),
+    // GetPage(
+    //   name: AppRoutes.notFound,
+    //   page: () => const ErrorPage(),
+    //   binding: ErrorBinding(),
+    //   transition: Transition.fade,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    // ),
   ];
 
   /// Unknown route handler
   static GetPage get unknownRoute {
     return GetPage(
       name: AppRoutes.notFound,
-      page: () => const ErrorPage(),
-      binding: ErrorBinding(),
+      page: () => const Scaffold(body: Center(child: Text('Page Not Found'))),
       transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 300),
     );
@@ -158,7 +158,7 @@ class AuthMiddleware extends GetMiddleware {
     // TODO: Implement actual authentication check
     // For now, allow all routes
     return null;
-    
+
     // Example implementation:
     // final authService = Get.find<AuthService>();
     // if (!authService.isAuthenticated()) {

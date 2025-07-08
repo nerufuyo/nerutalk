@@ -68,8 +68,8 @@ class LoginController extends GetxController {
     
     try {
       final success = await _authService.login(
-        email: emailController.text.trim(),
-        password: passwordController.text,
+        emailController.text.trim(),
+        passwordController.text,
       );
       
       if (success) {
