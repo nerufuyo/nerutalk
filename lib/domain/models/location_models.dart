@@ -1,16 +1,10 @@
 /// Location tracking and geofencing related data models
 /// These models represent location data structures in the application
+import 'dart:math' as math;
 
-enum LocationShareType {
-  realTime,
-  temporary,
-  permanent,
-}
+enum LocationShareType { realTime, temporary, permanent }
 
-enum GeofenceEventType {
-  entry,
-  exit,
-}
+enum GeofenceEventType { entry, exit }
 
 /// Represents a user's location
 class UserLocation {
@@ -114,10 +108,12 @@ class UserLocation {
     const double earthRadiusM = 6371000;
     final double dLat = (other.latitude - latitude) * (math.pi / 180);
     final double dLng = (other.longitude - longitude) * (math.pi / 180);
-    final double a = math.sin(dLat / 2) * math.sin(dLat / 2) + 
-        math.sin(dLng / 2) * math.sin(dLng / 2) * 
-        math.cos(latitude * (math.pi / 180)) * 
-        math.cos(other.latitude * (math.pi / 180));
+    final double a =
+        math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.sin(dLng / 2) *
+            math.sin(dLng / 2) *
+            math.cos(latitude * (math.pi / 180)) *
+            math.cos(other.latitude * (math.pi / 180));
     final double c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
     return earthRadiusM * c;
   }
@@ -335,7 +331,7 @@ class GeofenceArea {
       longitude: centerLongitude,
       timestamp: DateTime.now(),
     ).distanceTo(location);
-    
+
     return distance <= radiusMeters;
   }
 
@@ -506,5 +502,3 @@ class NearbyUser {
   @override
   int get hashCode => userId.hashCode;
 }
-
-import 'dart:math' as math;

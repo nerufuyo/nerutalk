@@ -1,7 +1,5 @@
-import 'package:equatable/equatable.dart';
-
 /// Notification device token model
-class DeviceToken extends Equatable {
+class DeviceToken {
   final String id;
   final String token;
   final String deviceType; // 'android', 'ios', 'web'
@@ -31,8 +29,8 @@ class DeviceToken extends Equatable {
       appVersion: json['app_version'],
       isActive: json['is_active'] ?? true,
       createdAt: DateTime.parse(json['created_at']),
-      lastUsedAt: json['last_used_at'] != null 
-          ? DateTime.parse(json['last_used_at']) 
+      lastUsedAt: json['last_used_at'] != null
+          ? DateTime.parse(json['last_used_at'])
           : null,
     );
   }
@@ -49,18 +47,6 @@ class DeviceToken extends Equatable {
       'last_used_at': lastUsedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        token,
-        deviceType,
-        deviceId,
-        appVersion,
-        isActive,
-        createdAt,
-        lastUsedAt,
-      ];
 
   DeviceToken copyWith({
     String? id,
@@ -86,7 +72,7 @@ class DeviceToken extends Equatable {
 }
 
 /// Push notification model
-class PushNotification extends Equatable {
+class PushNotification {
   final String id;
   final String title;
   final String body;
@@ -136,11 +122,11 @@ class PushNotification extends Equatable {
       status: NotificationStatus.values.byName(json['status']),
       createdAt: DateTime.parse(json['created_at']),
       sentAt: json['sent_at'] != null ? DateTime.parse(json['sent_at']) : null,
-      scheduledAt: json['scheduled_at'] != null 
-          ? DateTime.parse(json['scheduled_at']) 
+      scheduledAt: json['scheduled_at'] != null
+          ? DateTime.parse(json['scheduled_at'])
           : null,
-      stats: json['stats'] != null 
-          ? NotificationStats.fromJson(json['stats']) 
+      stats: json['stats'] != null
+          ? NotificationStats.fromJson(json['stats'])
           : null,
     );
   }
@@ -164,25 +150,6 @@ class PushNotification extends Equatable {
       'stats': stats?.toJson(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        title,
-        body,
-        data,
-        imageUrl,
-        clickAction,
-        type,
-        priority,
-        recipientUserIds,
-        senderId,
-        status,
-        createdAt,
-        sentAt,
-        scheduledAt,
-        stats,
-      ];
 
   PushNotification copyWith({
     String? id,
@@ -222,17 +189,10 @@ class PushNotification extends Equatable {
 }
 
 /// Notification status enum
-enum NotificationStatus {
-  pending,
-  sending,
-  sent,
-  delivered,
-  failed,
-  cancelled
-}
+enum NotificationStatus { pending, sending, sent, delivered, failed, cancelled }
 
 /// Notification statistics model
-class NotificationStats extends Equatable {
+class NotificationStats {
   final int totalRecipients;
   final int delivered;
   final int failed;
@@ -274,21 +234,10 @@ class NotificationStats extends Equatable {
       'platform_breakdown': platformBreakdown,
     };
   }
-
-  @override
-  List<Object?> get props => [
-        totalRecipients,
-        delivered,
-        failed,
-        clicked,
-        deliveryRate,
-        clickRate,
-        platformBreakdown,
-      ];
 }
 
 /// Notification template model
-class NotificationTemplate extends Equatable {
+class NotificationTemplate {
   final String id;
   final String name;
   final String type;
@@ -321,8 +270,8 @@ class NotificationTemplate extends Equatable {
       defaultData: json['default_data'],
       isActive: json['is_active'] ?? true,
       createdAt: DateTime.parse(json['created_at']),
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -340,23 +289,10 @@ class NotificationTemplate extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        type,
-        titleTemplate,
-        bodyTemplate,
-        defaultData,
-        isActive,
-        createdAt,
-        updatedAt,
-      ];
 }
 
 /// Notification preferences model
-class NotificationPreferences extends Equatable {
+class NotificationPreferences {
   final String userId;
   final bool enablePush;
   final bool enableChat;
@@ -398,8 +334,8 @@ class NotificationPreferences extends Equatable {
       quietHoursStart: json['quiet_hours_start'] ?? '22:00',
       quietHoursEnd: json['quiet_hours_end'] ?? '07:00',
       enableQuietHours: json['enable_quiet_hours'] ?? false,
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -420,22 +356,6 @@ class NotificationPreferences extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        userId,
-        enablePush,
-        enableChat,
-        enableCalls,
-        enableSystem,
-        enableBroadcast,
-        enableSound,
-        enableVibration,
-        quietHoursStart,
-        quietHoursEnd,
-        enableQuietHours,
-        updatedAt,
-      ];
 
   NotificationPreferences copyWith({
     String? userId,

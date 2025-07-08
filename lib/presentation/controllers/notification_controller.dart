@@ -4,7 +4,8 @@ import '../../domain/models/notification_models.dart';
 
 /// Notification controller for managing push notifications UI
 class NotificationController extends GetxController {
-  final NotificationService _notificationService = Get.find<NotificationService>();
+  final NotificationService _notificationService =
+      Get.find<NotificationService>();
 
   // Observable properties
   final RxBool _isLoading = false.obs;
@@ -12,7 +13,9 @@ class NotificationController extends GetxController {
   final RxBool _isLoadingPreferences = false.obs;
   final Rx<Map<String, dynamic>?> _stats = Rx<Map<String, dynamic>?>(null);
   final RxString _selectedStatsType = 'all'.obs;
-  final Rx<DateTime> _statsStartDate = DateTime.now().subtract(const Duration(days: 30)).obs;
+  final Rx<DateTime> _statsStartDate = DateTime.now()
+      .subtract(const Duration(days: 30))
+      .obs;
   final Rx<DateTime> _statsEndDate = DateTime.now().obs;
 
   // Getters
@@ -25,12 +28,15 @@ class NotificationController extends GetxController {
   DateTime get statsEndDate => _statsEndDate.value;
 
   // Notification service getters
-  List<DeviceToken> get deviceTokens => _notificationService.deviceTokens;
-  List<PushNotification> get notifications => _notificationService.notifications;
-  NotificationPreferences get preferences => _notificationService.preferences;
-  String? get fcmToken => _notificationService.fcmToken;
-  bool get isInitialized => _notificationService.isInitialized;
-  int get unreadCount => _notificationService.unreadCount;
+  List<DeviceToken> get deviceTokens =>
+      _notificationService.deviceTokens.toList();
+  List<PushNotification> get notifications =>
+      _notificationService.notifications.toList();
+  NotificationPreferences get preferences =>
+      _notificationService.preferences.value;
+  String? get fcmToken => _notificationService.fcmToken.value;
+  bool get isInitialized => _notificationService.isInitialized.value;
+  int get unreadCount => _notificationService.unreadCount.value;
 
   @override
   void onInit() {
@@ -64,7 +70,9 @@ class NotificationController extends GetxController {
       final statsData = await _notificationService.getNotificationStats(
         startDate: _statsStartDate.value,
         endDate: _statsEndDate.value,
-        type: _selectedStatsType.value == 'all' ? null : _selectedStatsType.value,
+        type: _selectedStatsType.value == 'all'
+            ? 'all'
+            : _selectedStatsType.value,
       );
       _stats.value = statsData;
     } finally {
@@ -87,8 +95,9 @@ class NotificationController extends GetxController {
   /// Update device token status
   Future<void> updateDeviceTokenStatus(String tokenId, bool isActive) async {
     await _notificationService.updateDeviceToken(
-      tokenId,
-      {'is_active': isActive},
+      token: tokenId,
+      deviceType: 'unknown',
+      deviceId: 'unknown',
     );
   }
 
@@ -99,13 +108,16 @@ class NotificationController extends GetxController {
 
   /// Send test notification
   Future<void> sendTestNotification() async {
-    await _notificationService.sendNotification(
+    final notification = PushNotification(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: 'Test Notification',
       body: 'This is a test notification from NeruTalk',
       recipientUserIds: [], // Will be filled by backend with current user
       type: 'system',
       priority: 'normal',
+      createdAt: DateTime.now(),
     );
+    await _notificationService.sendNotification(notification);
   }
 
   /// Send notification to specific users
@@ -118,7 +130,8 @@ class NotificationController extends GetxController {
     Map<String, dynamic>? data,
     String? imageUrl,
   }) async {
-    await _notificationService.sendNotification(
+    final notification = PushNotification(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: title,
       body: body,
       recipientUserIds: userIds,
@@ -126,7 +139,9 @@ class NotificationController extends GetxController {
       priority: priority,
       data: data,
       imageUrl: imageUrl,
+      createdAt: DateTime.now(),
     );
+    await _notificationService.sendNotification(notification);
   }
 
   /// Broadcast notification to all users
@@ -149,7 +164,9 @@ class NotificationController extends GetxController {
   }
 
   /// Update notification preferences
-  Future<void> updateNotificationPreferences(NotificationPreferences preferences) async {
+  Future<void> updateNotificationPreferences(
+    NotificationPreferences preferences,
+  ) async {
     _isLoadingPreferences.value = true;
     try {
       await _notificationService.updateNotificationPreferences(preferences);

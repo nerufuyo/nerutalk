@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_colors.dart';
+import '../constants/app_colors.dart';
 
-/// Application theme configuration for NeruTalk
+/// Application theme configuration for Neru      // TabBar Theme
+      tabBarTheme: TabBarThemeData(
+        labelColor: AppColors.primaryBlue,k
 /// Provides consistent styling across light and dark themes
 class AppTheme {
   // Private constructor to prevent instantiation
@@ -14,7 +16,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       fontFamily: GoogleFonts.poppins().fontFamily,
-      
+
       // Color Scheme
       colorScheme: const ColorScheme.light(
         primary: AppColors.primaryBlue,
@@ -57,16 +59,13 @@ class AppTheme {
       ),
 
       // Card Theme
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.lightCard,
         elevation: 2,
         shadowColor: AppColors.lightShadow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(
-            color: AppColors.lightCardBorder,
-            width: 0.5,
-          ),
+          side: const BorderSide(color: AppColors.lightCardBorder, width: 0.5),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
@@ -93,9 +92,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primaryBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           textStyle: GoogleFonts.poppins(
             fontSize: 14,
@@ -134,7 +131,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.focusedBorder, width: 2),
+          borderSide: const BorderSide(
+            color: AppColors.focusedBorder,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -144,15 +144,12 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.errorBorder, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        hintStyle: GoogleFonts.poppins(
-          color: AppColors.grey500,
-          fontSize: 14,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
         ),
-        labelStyle: GoogleFonts.poppins(
-          color: AppColors.grey700,
-          fontSize: 14,
-        ),
+        hintStyle: GoogleFonts.poppins(color: AppColors.grey500, fontSize: 14),
+        labelStyle: GoogleFonts.poppins(color: AppColors.grey700, fontSize: 14),
         errorStyle: GoogleFonts.poppins(
           color: AppColors.errorRed,
           fontSize: 12,
@@ -217,9 +214,7 @@ class AppTheme {
         backgroundColor: AppColors.lightBackground,
         elevation: 8,
         shadowColor: AppColors.lightShadow,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         titleTextStyle: GoogleFonts.poppins(
           fontSize: 18,
           fontWeight: FontWeight.w600,
@@ -258,9 +253,7 @@ class AppTheme {
           return AppColors.transparent;
         }),
         side: const BorderSide(color: AppColors.grey400, width: 2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
 
       // Radio Theme
@@ -367,7 +360,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       fontFamily: GoogleFonts.poppins().fontFamily,
-      
+
       // Color Scheme
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primaryBlueLight,
@@ -416,10 +409,7 @@ class AppTheme {
         shadowColor: AppColors.darkShadow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(
-            color: AppColors.darkCardBorder,
-            width: 0.5,
-          ),
+          side: const BorderSide(color: AppColors.darkCardBorder, width: 0.5),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
@@ -446,9 +436,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primaryBlueLight,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           textStyle: GoogleFonts.poppins(
             fontSize: 14,
@@ -487,7 +475,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.focusedBorder, width: 2),
+          borderSide: const BorderSide(
+            color: AppColors.focusedBorder,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -497,15 +488,12 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.errorBorder, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        hintStyle: GoogleFonts.poppins(
-          color: AppColors.grey500,
-          fontSize: 14,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
         ),
-        labelStyle: GoogleFonts.poppins(
-          color: AppColors.grey400,
-          fontSize: 14,
-        ),
+        hintStyle: GoogleFonts.poppins(color: AppColors.grey500, fontSize: 14),
+        labelStyle: GoogleFonts.poppins(color: AppColors.grey400, fontSize: 14),
         errorStyle: GoogleFonts.poppins(
           color: AppColors.errorRed,
           fontSize: 12,
@@ -570,9 +558,7 @@ class AppTheme {
         backgroundColor: AppColors.darkSurface,
         elevation: 8,
         shadowColor: AppColors.darkShadow,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         titleTextStyle: GoogleFonts.poppins(
           fontSize: 18,
           fontWeight: FontWeight.w600,
@@ -611,9 +597,7 @@ class AppTheme {
           return AppColors.transparent;
         }),
         side: const BorderSide(color: AppColors.grey600, width: 2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
 
       // Radio Theme

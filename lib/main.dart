@@ -58,7 +58,8 @@ Future<void> _initializeServices() async {
     Get.put<SettingsService>(SettingsService(), permanent: true);
 
     // Wait for all services to be ready
-    await Get.find<NetworkService>().onReady;
+    // Services are initialized synchronously via Get.put()
+    print('📡 Network service ready: ${Get.find<NetworkService>().isOnline}');
 
     print('✅ All services initialized successfully');
   } catch (e) {
