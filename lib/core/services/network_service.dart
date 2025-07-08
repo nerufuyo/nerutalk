@@ -5,7 +5,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:hive/hive.dart';
-import 'package:logger/logger.dart';
 import '../config/app_config.dart';
 import '../constants/app_strings.dart';
 import 'auth_service.dart';
@@ -15,16 +14,15 @@ import 'auth_service.dart';
 class NetworkService extends getx.GetxService {
   late Dio _dio;
   late Connectivity _connectivity;
-  late Logger _logger;
   late Box _cacheBox;
   late Box _offlineQueueBox;
-  
-  final RxBool _isOnline = false.obs;
-  final RxString _connectionType = 'none'.obs;
-  
+
+  final getx.RxBool _isOnline = false.obs;
+  final getx.RxString _connectionType = 'none'.obs;
+
   StreamSubscription<ConnectivityResult>? _connectivitySubscription;
   Timer? _retryTimer;
-  
+
   // Queue for offline requests
   final List<OfflineRequest> _offlineQueue = [];
 
@@ -35,7 +33,7 @@ class NetworkService extends getx.GetxService {
   String get connectionType => _connectionType.value;
 
   /// Get online status as reactive stream
-  RxBool get isOnlineStream => _isOnline;
+  getx.RxBool get isOnlineStream => _isOnline;
 
   @override
   Future<void> onInit() async {
@@ -64,11 +62,11 @@ class NetworkService extends getx.GetxService {
     );
 
     _connectivity = Connectivity();
-    
+
     // Initialize Hive boxes for caching and offline queue
     _cacheBox = await Hive.openBox('network_cache');
     _offlineQueueBox = await Hive.openBox('offline_queue');
-    
+
     await _initializeDio();
     await _initializeConnectivity();
     await _loadOfflineQueue();
@@ -76,16 +74,18 @@ class NetworkService extends getx.GetxService {
 
   /// Initialize Dio HTTP client
   Future<void> _initializeDio() async {
-    _dio = Dio(BaseOptions(
-      baseUrl: AppConfig.baseUrl,
-      connectTimeout: Duration(seconds: AppConfig.apiTimeoutSeconds),
-      receiveTimeout: Duration(seconds: AppConfig.apiTimeoutSeconds),
-      sendTimeout: Duration(seconds: AppConfig.apiTimeoutSeconds),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    ));
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: AppConfig.baseUrl,
+        connectTimeout: Duration(seconds: AppConfig.apiTimeoutSeconds),
+        receiveTimeout: Duration(seconds: AppConfig.apiTimeoutSeconds),
+        sendTimeout: Duration(seconds: AppConfig.apiTimeoutSeconds),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ),
+    );
 
     // Add interceptors
     _dio.interceptors.add(AuthInterceptor());
@@ -113,7 +113,7 @@ class NetworkService extends getx.GetxService {
   /// Update connection status
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     final wasOnline = _isOnline.value;
-    
+
     switch (result) {
       case ConnectivityResult.wifi:
         _connectionType.value = 'wifi';
@@ -137,7 +137,9 @@ class NetworkService extends getx.GetxService {
         break;
     }
 
-    _logger.i('Connection status: ${_connectionType.value}, Online: ${_isOnline.value}');
+    _logger.i(
+      'Connection status: ${_connectionType.value}, Online: ${_isOnline.value}',
+    );
 
     // Process offline queue when coming back online
     if (!wasOnline && _isOnline.value) {
@@ -170,7 +172,9 @@ class NetworkService extends getx.GetxService {
         if (cachedData != null) {
           return ApiResponse<T>.success(cachedData);
         }
-        return ApiResponse<T>.error('No internet connection and no cached data available');
+        return ApiResponse<T>.error(
+          'No internet connection and no cached data available',
+        );
       }
 
       final response = await _dio.get(
@@ -202,7 +206,10 @@ class NetworkService extends getx.GetxService {
           data: data,
           queryParameters: queryParameters,
         );
-        return ApiResponse<T>.success(null, message: 'Request queued for when online');
+        return ApiResponse<T>.success(
+          null,
+          message: 'Request queued for when online',
+        );
       }
 
       final response = await _dio.post(
@@ -221,7 +228,10 @@ class NetworkService extends getx.GetxService {
           data: data,
           queryParameters: queryParameters,
         );
-        return ApiResponse<T>.success(null, message: 'Request queued for retry');
+        return ApiResponse<T>.success(
+          null,
+          message: 'Request queued for retry',
+        );
       }
       return _handleError<T>(e);
     }
@@ -243,7 +253,10 @@ class NetworkService extends getx.GetxService {
           data: data,
           queryParameters: queryParameters,
         );
-        return ApiResponse<T>.success(null, message: 'Request queued for when online');
+        return ApiResponse<T>.success(
+          null,
+          message: 'Request queued for when online',
+        );
       }
 
       final response = await _dio.put(
@@ -262,7 +275,10 @@ class NetworkService extends getx.GetxService {
           data: data,
           queryParameters: queryParameters,
         );
-        return ApiResponse<T>.success(null, message: 'Request queued for retry');
+        return ApiResponse<T>.success(
+          null,
+          message: 'Request queued for retry',
+        );
       }
       return _handleError<T>(e);
     }
@@ -284,7 +300,10 @@ class NetworkService extends getx.GetxService {
           data: data,
           queryParameters: queryParameters,
         );
-        return ApiResponse<T>.success(null, message: 'Request queued for when online');
+        return ApiResponse<T>.success(
+          null,
+          message: 'Request queued for when online',
+        );
       }
 
       final response = await _dio.delete(
@@ -303,25 +322,36 @@ class NetworkService extends getx.GetxService {
           data: data,
           queryParameters: queryParameters,
         );
-        return ApiResponse<T>.success(null, message: 'Request queued for retry');
+        return ApiResponse<T>.success(
+          null,
+          message: 'Request queued for retry',
+        );
       }
       return _handleError<T>(e);
     }
   }
 
   /// Get cached data
-  Future<dynamic> _getCachedData(String endpoint, Map<String, dynamic>? queryParameters) async {
+  Future<dynamic> _getCachedData(
+    String endpoint,
+    Map<String, dynamic>? queryParameters,
+  ) async {
     try {
       final cacheKey = _generateCacheKey(endpoint, queryParameters);
       final cachedResponse = _cacheBox.get(cacheKey);
-      
+
       if (cachedResponse != null) {
-        final Map<String, dynamic> cache = Map<String, dynamic>.from(cachedResponse);
+        final Map<String, dynamic> cache = Map<String, dynamic>.from(
+          cachedResponse,
+        );
         final int timestamp = cache['timestamp'] ?? 0;
-        final DateTime cacheTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-        
+        final DateTime cacheTime = DateTime.fromMillisecondsSinceEpoch(
+          timestamp,
+        );
+
         // Check if cache is still valid
-        if (DateTime.now().difference(cacheTime).inSeconds <= AppConfig.cacheMaxAge) {
+        if (DateTime.now().difference(cacheTime).inSeconds <=
+            AppConfig.cacheMaxAge) {
           _logger.i('Using cached data for: $endpoint');
           return cache['data'];
         } else {
@@ -329,7 +359,7 @@ class NetworkService extends getx.GetxService {
           await _cacheBox.delete(cacheKey);
         }
       }
-      
+
       return null;
     } catch (e) {
       _logger.e('Error getting cached data: $e');
@@ -338,7 +368,10 @@ class NetworkService extends getx.GetxService {
   }
 
   /// Generate cache key
-  String _generateCacheKey(String endpoint, Map<String, dynamic>? queryParameters) {
+  String _generateCacheKey(
+    String endpoint,
+    Map<String, dynamic>? queryParameters,
+  ) {
     final buffer = StringBuffer(endpoint);
     if (queryParameters != null && queryParameters.isNotEmpty) {
       buffer.write('?');
@@ -365,7 +398,7 @@ class NetworkService extends getx.GetxService {
 
       _offlineQueue.add(request);
       await _saveOfflineQueue();
-      
+
       _logger.i('Queued offline request: $method $endpoint');
     } catch (e) {
       _logger.e('Error queuing offline request: $e');
@@ -376,9 +409,9 @@ class NetworkService extends getx.GetxService {
   bool _shouldQueueRequest(dynamic error) {
     if (error is DioException) {
       return error.type == DioExceptionType.connectionTimeout ||
-             error.type == DioExceptionType.receiveTimeout ||
-             error.type == DioExceptionType.sendTimeout ||
-             error.type == DioExceptionType.connectionError;
+          error.type == DioExceptionType.receiveTimeout ||
+          error.type == DioExceptionType.sendTimeout ||
+          error.type == DioExceptionType.connectionError;
     }
     return false;
   }
@@ -394,7 +427,7 @@ class NetworkService extends getx.GetxService {
     for (final request in List.from(_offlineQueue)) {
       try {
         Response response;
-        
+
         switch (request.method.toUpperCase()) {
           case 'GET':
             response = await _dio.get(
@@ -427,13 +460,19 @@ class NetworkService extends getx.GetxService {
             continue;
         }
 
-        if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+        if (response.statusCode != null &&
+            response.statusCode! >= 200 &&
+            response.statusCode! < 300) {
           requestsToRemove.add(request);
-          _logger.i('Successfully processed offline request: ${request.method} ${request.endpoint}');
+          _logger.i(
+            'Successfully processed offline request: ${request.method} ${request.endpoint}',
+          );
         }
       } catch (e) {
-        _logger.e('Failed to process offline request: ${request.method} ${request.endpoint}, Error: $e');
-        
+        _logger.e(
+          'Failed to process offline request: ${request.method} ${request.endpoint}, Error: $e',
+        );
+
         // Remove old requests (older than 24 hours)
         if (DateTime.now().difference(request.timestamp).inHours > 24) {
           requestsToRemove.add(request);
@@ -452,7 +491,9 @@ class NetworkService extends getx.GetxService {
   /// Save offline queue to persistent storage
   Future<void> _saveOfflineQueue() async {
     try {
-      final queueData = _offlineQueue.map((request) => request.toJson()).toList();
+      final queueData = _offlineQueue
+          .map((request) => request.toJson())
+          .toList();
       await _offlineQueueBox.put('queue', queueData);
     } catch (e) {
       _logger.e('Error saving offline queue: $e');
@@ -467,7 +508,9 @@ class NetworkService extends getx.GetxService {
         _offlineQueue.clear();
         for (final item in queueData) {
           if (item is Map<String, dynamic>) {
-            _offlineQueue.add(OfflineRequest.fromJson(Map<String, dynamic>.from(item)));
+            _offlineQueue.add(
+              OfflineRequest.fromJson(Map<String, dynamic>.from(item)),
+            );
           }
         }
         _logger.i('Loaded ${_offlineQueue.length} offline requests');
@@ -484,12 +527,13 @@ class NetworkService extends getx.GetxService {
 
     if (error is DioException) {
       statusCode = error.response?.statusCode;
-      
+
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.sendTimeout:
         case DioExceptionType.receiveTimeout:
-          message = 'Connection timeout. Please check your internet connection.';
+          message =
+              'Connection timeout. Please check your internet connection.';
           break;
         case DioExceptionType.badResponse:
           message = error.response?.data?['message'] ?? 'Server error occurred';
@@ -567,11 +611,7 @@ class ApiResponse<T> {
   });
 
   factory ApiResponse.success(T? data, {String? message}) {
-    return ApiResponse._(
-      data: data,
-      message: message,
-      success: true,
-    );
+    return ApiResponse._(data: data, message: message, success: true);
   }
 
   factory ApiResponse.error(String message, {int? statusCode}) {
@@ -614,7 +654,7 @@ class OfflineRequest {
       method: json['method'],
       endpoint: json['endpoint'],
       data: json['data'],
-      queryParameters: json['queryParameters'] != null 
+      queryParameters: json['queryParameters'] != null
           ? Map<String, dynamic>.from(json['queryParameters'])
           : null,
       timestamp: DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
@@ -625,14 +665,17 @@ class OfflineRequest {
 /// Authentication interceptor
 class AuthInterceptor extends Interceptor {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final authService = getx.Get.find<AuthService>();
     final token = await authService.getAccessToken();
-    
+
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }
-    
+
     handler.next(options);
   }
 
@@ -641,7 +684,7 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       final authService = getx.Get.find<AuthService>();
       final refreshed = await authService.refreshToken();
-      
+
       if (refreshed) {
         // Retry the request with new token
         final token = await authService.getAccessToken();
@@ -653,11 +696,11 @@ class AuthInterceptor extends Interceptor {
           return;
         }
       }
-      
+
       // If refresh failed, logout user
       await authService.logout();
     }
-    
+
     handler.next(err);
   }
 }
@@ -670,29 +713,32 @@ class CacheInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.requestOptions.method.toUpperCase() == 'GET' && 
+    if (response.requestOptions.method.toUpperCase() == 'GET' &&
         response.statusCode == 200) {
       try {
         final cacheKey = _generateCacheKey(
           response.requestOptions.path,
           response.requestOptions.queryParameters,
         );
-        
+
         final cacheData = {
           'data': response.data,
           'timestamp': DateTime.now().millisecondsSinceEpoch,
         };
-        
+
         await _cacheBox.put(cacheKey, cacheData);
       } catch (e) {
         // Cache error shouldn't affect response
       }
     }
-    
+
     handler.next(response);
   }
 
-  String _generateCacheKey(String endpoint, Map<String, dynamic> queryParameters) {
+  String _generateCacheKey(
+    String endpoint,
+    Map<String, dynamic> queryParameters,
+  ) {
     final buffer = StringBuffer(endpoint);
     if (queryParameters.isNotEmpty) {
       buffer.write('?');
@@ -746,12 +792,16 @@ class RetryInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (_shouldRetry(err) && (err.requestOptions.extra['retryCount'] ?? 0) < AppConfig.maxRetryAttempts) {
+    if (_shouldRetry(err) &&
+        (err.requestOptions.extra['retryCount'] ?? 0) <
+            AppConfig.maxRetryAttempts) {
       final retryCount = (err.requestOptions.extra['retryCount'] ?? 0) + 1;
       err.requestOptions.extra['retryCount'] = retryCount;
-      
-      await Future.delayed(Duration(milliseconds: AppConfig.wsReconnectDelay * retryCount));
-      
+
+      await Future.delayed(
+        Duration(milliseconds: AppConfig.wsReconnectDelay * retryCount),
+      );
+
       try {
         final response = await _dio.fetch(err.requestOptions);
         handler.resolve(response);
@@ -760,15 +810,15 @@ class RetryInterceptor extends Interceptor {
         // Continue with original error
       }
     }
-    
+
     handler.next(err);
   }
 
   bool _shouldRetry(DioException err) {
     return err.type == DioExceptionType.connectionTimeout ||
-           err.type == DioExceptionType.receiveTimeout ||
-           err.type == DioExceptionType.sendTimeout ||
-           (err.type == DioExceptionType.badResponse && 
+        err.type == DioExceptionType.receiveTimeout ||
+        err.type == DioExceptionType.sendTimeout ||
+        (err.type == DioExceptionType.badResponse &&
             err.response?.statusCode != null &&
             err.response!.statusCode! >= 500);
   }
@@ -782,12 +832,10 @@ class ErrorInterceptor extends Interceptor {
     if (err.response?.data is Map<String, dynamic>) {
       final errorData = err.response!.data as Map<String, dynamic>;
       if (errorData.containsKey('message')) {
-        err = err.copyWith(
-          message: errorData['message'],
-        );
+        err = err.copyWith(message: errorData['message']);
       }
     }
-    
+
     handler.next(err);
   }
 }

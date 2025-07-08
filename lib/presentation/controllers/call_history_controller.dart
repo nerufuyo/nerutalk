@@ -15,10 +15,10 @@ class CallHistoryController extends GetxController {
   Future<void> loadCallHistory() async {
     try {
       isLoading.value = true;
-      
+
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(seconds: 1));
-      
+
       // Mock data for now
       callHistory.value = [
         CallHistory(
@@ -29,7 +29,9 @@ class CallHistoryController extends GetxController {
           type: CallType.video,
           status: CallStatus.ended,
           startedAt: DateTime.now().subtract(const Duration(hours: 2)),
-          endedAt: DateTime.now().subtract(const Duration(hours: 2, minutes: -15)),
+          endedAt: DateTime.now().subtract(
+            const Duration(hours: 2, minutes: -15),
+          ),
           duration: 900, // 15 minutes
           isIncoming: false,
         ),
@@ -61,7 +63,9 @@ class CallHistoryController extends GetxController {
           type: CallType.audio,
           status: CallStatus.ended,
           startedAt: DateTime.now().subtract(const Duration(days: 3)),
-          endedAt: DateTime.now().subtract(const Duration(days: 3, minutes: -30)),
+          endedAt: DateTime.now().subtract(
+            const Duration(days: 3, minutes: -30),
+          ),
           duration: 1800, // 30 minutes
           isIncoming: true,
         ),
@@ -101,10 +105,7 @@ class CallHistoryController extends GetxController {
         title: const Text('Clear Call History'),
         content: const Text('Are you sure you want to clear all call history?'),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               callHistory.clear();
@@ -115,10 +116,7 @@ class CallHistoryController extends GetxController {
                 snackPosition: SnackPosition.BOTTOM,
               );
             },
-            child: const Text(
-              'Clear',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Clear', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),

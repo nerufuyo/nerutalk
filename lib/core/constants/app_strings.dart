@@ -296,7 +296,6 @@ class AppStrings {
   static const String microphoneError = 'microphone_error';
 
   // Success Messages
-  static const String loginSuccess = 'login_success';
   static const String registerSuccess = 'register_success';
   static const String profileUpdateSuccess = 'profile_update_success';
   static const String messagesentSuccess = 'message_sent_success';
@@ -504,7 +503,6 @@ class AppStrings {
       'Failed to load preferences';
 
   // Profile Strings
-  static const String profile = 'Profile';
   static const String profileCompletion = 'Profile Completion';
   static const String basicInformation = 'Basic Information';
   static const String contactInformation = 'Contact Information';
@@ -514,7 +512,6 @@ class AppStrings {
   static const String bio = 'Bio';
   static const String dateOfBirth = 'Date of Birth';
   static const String phoneNumber = 'Phone Number';
-  static const String location = 'Location';
   static const String website = 'Website';
   static const String status = 'Status';
   static const String statusMessage = 'Status Message';
@@ -527,8 +524,6 @@ class AppStrings {
   static const String notProvided = 'Not provided';
   static const String profileNotFound = 'Profile not found';
   static const String verify = 'Verify';
-  static const String away = 'Away';
-  static const String busy = 'Busy';
 
   // Settings Strings
   static const String appSettings = 'App Settings';

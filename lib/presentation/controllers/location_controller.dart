@@ -26,15 +26,15 @@ class LocationController extends GetxController {
   Future<void> refreshLocation() async {
     try {
       isLoadingLocation.value = true;
-      
+
       // TODO: Get actual location using geolocator
       await Future.delayed(const Duration(seconds: 1));
-      
+
       // Mock current location
       currentLocation.value = UserLocation(
         id: 'current_location',
         userId: 'current_user',
-        latitude: -6.2088,  // Jakarta coordinates
+        latitude: -6.2088, // Jakarta coordinates
         longitude: 106.8456,
         accuracy: 10.0,
         address: 'Jakarta, Indonesia',
@@ -49,7 +49,7 @@ class LocationController extends GetxController {
 
   void toggleLocationSharing(bool enabled) {
     isLocationSharingEnabled.value = enabled;
-    
+
     if (enabled) {
       _startLocationSharing();
     } else {
@@ -78,10 +78,10 @@ class LocationController extends GetxController {
   Future<void> findNearbyUsers() async {
     try {
       isLoadingNearby.value = true;
-      
+
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(seconds: 1));
-      
+
       // Mock nearby users
       nearbyUsers.value = [
         NearbyUser(
@@ -124,7 +124,7 @@ class LocationController extends GetxController {
     try {
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       // Mock geofences
       geofences.value = [
         GeofenceArea(
@@ -155,7 +155,7 @@ class LocationController extends GetxController {
     try {
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       // Mock location history
       recentLocations.value = [
         UserLocation(
@@ -237,10 +237,7 @@ class LocationController extends GetxController {
         title: const Text('Delete Geofence'),
         content: Text('Are you sure you want to delete "${geofence.name}"?'),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               geofences.removeWhere((g) => g.id == geofence.id);
@@ -251,10 +248,7 @@ class LocationController extends GetxController {
                 snackPosition: SnackPosition.BOTTOM,
               );
             },
-            child: const Text(
-              'Delete',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),

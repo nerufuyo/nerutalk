@@ -7,7 +7,7 @@ class MediaGalleryController extends GetxController {
   final RxList<MediaItem> filteredItems = <MediaItem>[].obs;
   final RxBool isLoading = false.obs;
   final RxString selectedFilter = 'all'.obs;
-  
+
   final List<String> filterTypes = ['all', 'image', 'video', 'document'];
 
   @override
@@ -19,10 +19,10 @@ class MediaGalleryController extends GetxController {
   Future<void> loadMediaItems() async {
     try {
       isLoading.value = true;
-      
+
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(seconds: 1));
-      
+
       // Mock data for now
       mediaItems.value = [
         MediaItem(
@@ -89,7 +89,7 @@ class MediaGalleryController extends GetxController {
           senderName: 'Sarah Johnson',
         ),
       ];
-      
+
       _applyFilter();
     } catch (e) {
       Get.snackbar('Error', 'Failed to load media items: $e');
@@ -141,10 +141,7 @@ class MediaGalleryController extends GetxController {
         title: const Text('Delete Media'),
         content: const Text('Are you sure you want to delete this media file?'),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               mediaItems.removeWhere((item) => item.id == itemId);
@@ -156,10 +153,7 @@ class MediaGalleryController extends GetxController {
                 snackPosition: SnackPosition.BOTTOM,
               );
             },
-            child: const Text(
-              'Delete',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),

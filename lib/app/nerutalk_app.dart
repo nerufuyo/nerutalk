@@ -16,36 +16,33 @@ class NeruTalkApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize theme controller
     Get.put(ThemeController(), permanent: true);
-    
+
     return GetBuilder<ThemeController>(
       builder: (themeController) {
         return GetMaterialApp(
           // App Information
           title: AppStrings.appName,
           debugShowCheckedModeBanner: false,
-          
+
           // Theming
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: themeController.themeMode,
-          
+
           // Internationalization
           translations: AppTranslations(),
           locale: Get.deviceLocale,
           fallbackLocale: AppTranslations.fallbackLocale,
           supportedLocales: AppTranslations.supportedLocales,
-          
+
           // Routing
           initialRoute: AppRoutes.splash,
           getPages: AppPages.pages,
-          
-          // Error handling
-          unknownRoute: AppPages.unknownRoute,
-          
+
           // Default transition
           defaultTransition: Transition.cupertino,
           transitionDuration: const Duration(milliseconds: 300),
-          
+
           // Responsive design
           builder: (context, child) {
             return MediaQuery(
