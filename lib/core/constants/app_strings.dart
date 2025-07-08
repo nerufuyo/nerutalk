@@ -392,4 +392,79 @@ class AppStrings {
   static const String locationFeature = 'location_enabled';
   static const String fileShareFeature = 'file_share_enabled';
   static const String pushNotificationFeature = 'push_notification_enabled';
+  
+  // Push Notification Strings
+  static const String notifications = 'Notifications';
+  static const String notificationHistory = 'History';
+  static const String deviceTokens = 'Device Tokens';
+  static const String statistics = 'Statistics';
+  static const String notificationPreferences = 'Notification Preferences';
+  static const String notificationTypes = 'Notification Types';
+  static const String soundAndVibration = 'Sound & Vibration';
+  static const String quietHours = 'Quiet Hours';
+  static const String deviceInformation = 'Device Information';
+  
+  // Notification Types
+  static const String enablePushNotifications = 'Push Notifications';
+  static const String enablePushNotificationsSubtitle = 'Receive push notifications on this device';
+  static const String chatNotifications = 'Chat Messages';
+  static const String chatNotificationsSubtitle = 'Notifications for new chat messages';
+  static const String callNotifications = 'Video Calls';
+  static const String callNotificationsSubtitle = 'Notifications for incoming video calls';
+  static const String systemNotifications = 'System Updates';
+  static const String systemNotificationsSubtitle = 'Important app updates and announcements';
+  static const String broadcastNotifications = 'Announcements';
+  static const String broadcastNotificationsSubtitle = 'General announcements and news';
+  
+  // Sound & Vibration
+  static const String enableSound = 'Notification Sound';
+  static const String enableSoundSubtitle = 'Play sound for notifications';
+  static const String enableVibration = 'Vibration';
+  static const String enableVibrationSubtitle = 'Vibrate device for notifications';
+  
+  // Quiet Hours
+  static const String enableQuietHours = 'Enable Quiet Hours';
+  static const String enableQuietHoursSubtitle = 'Mute notifications during specified hours';
+  static const String startTime = 'Start Time';
+  static const String endTime = 'End Time';
+  
+  // Device Information
+  static const String fcmToken = 'FCM Token';
+  static const String notificationStatus = 'Status';
+  static const String registeredDevices = 'Registered Devices';
+  static const String initialized = 'Initialized';
+  static const String notInitialized = 'Not Initialized';
+  static const String notAvailable = 'Not Available';
+  
+  // Notification Actions
+  static const String sendNotification = 'Send Notification';
+  static const String sendTestNotification = 'Send Test';
+  static const String clearAllNotifications = 'Clear All';
+  static const String clearAllNotificationsConfirmation = 'Are you sure you want to clear all notifications?';
+  static const String removeDeviceToken = 'Remove Device';
+  static const String removeDeviceTokenConfirmation = 'Are you sure you want to remove this device token?';
+  static const String notificationTitle = 'Title';
+  static const String notificationBody = 'Message';
+  static const String recipientUserIds = 'Recipients (comma-separated IDs)';
+  static const String notificationType = 'Type';
+  static const String priority = 'Priority';
+  static const String filters = 'Filters';
+  static const String noNotificationsYet = 'No notifications yet';
+  static const String noDeviceTokens = 'No device tokens registered';
+  static const String noStatisticsAvailable = 'No statistics available';
+  
+  // Notification Messages
+  static const String notificationPermissionGranted = 'Notification permission granted';
+  static const String notificationInitError = 'Failed to initialize notifications';
+  static const String notificationSentSuccess = 'Notification sent successfully';
+  static const String broadcastSentSuccess = 'Broadcast sent successfully';
+  static const String notificationPreferencesUpdated = 'Preferences updated successfully';
+  static const String sendNotificationError = 'Failed to send notification';
+  static const String broadcastNotificationError = 'Failed to send broadcast';
+  static const String loadDeviceTokensError = 'Failed to load device tokens';
+  static const String updateDeviceTokenError = 'Failed to update device token';
+  static const String removeDeviceTokenError = 'Failed to remove device token';
+  static const String loadNotificationStatsError = 'Failed to load statistics';
+  static const String loadNotificationPreferencesError = 'Failed to load preferences';
+  static const String updateNotificationPreferencesError = 'Failed to update preferences';
 }

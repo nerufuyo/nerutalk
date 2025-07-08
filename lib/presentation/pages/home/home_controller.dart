@@ -75,6 +75,9 @@ class HomeController extends GetxController {
       case 'profile':
         Get.toNamed(AppRoutes.profile);
         break;
+      case 'notifications':
+        Get.toNamed(AppRoutes.notifications);
+        break;
       case 'settings':
         Get.toNamed(AppRoutes.settings);
         break;

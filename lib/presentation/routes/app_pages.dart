@@ -24,6 +24,10 @@ import '../pages/media/sticker_gallery_page.dart';
 import '../pages/media/sticker_gallery_binding.dart';
 import '../pages/location/location_page.dart';
 import '../pages/location/location_binding.dart';
+import '../pages/notifications/notifications_page.dart';
+import '../pages/notifications/notifications_binding.dart';
+import '../pages/notifications/notification_preferences_page.dart';
+import '../pages/notifications/notification_preferences_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -130,6 +134,23 @@ abstract class AppPages {
       name: AppRoutes.location,
       page: () => const LocationPage(),
       binding: LocationBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Notification Pages
+    GetPage(
+      name: AppRoutes.notifications,
+      page: () => const NotificationsPage(),
+      binding: NotificationsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.notificationPreferences,
+      page: () => const NotificationPreferencesPage(),
+      binding: NotificationPreferencesBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
