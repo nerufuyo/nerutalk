@@ -156,10 +156,7 @@ class NotificationController extends GetxController {
     await _notificationService.broadcastNotification(
       title: title,
       body: body,
-      type: type,
-      priority: priority,
       data: data,
-      imageUrl: imageUrl,
     );
   }
 

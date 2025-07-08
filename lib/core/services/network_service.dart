@@ -320,6 +320,40 @@ class NetworkService extends getx.GetxService {
     }
   }
 
+  /// Upload file with multipart form data
+  Future<ApiResponse<T>> uploadFile<T>(
+    String endpoint,
+    File file, {
+    String fieldName = 'file',
+    Map<String, dynamic>? additionalData,
+    Map<String, dynamic>? queryParameters,
+    void Function(int, int)? onSendProgress,
+  }) async {
+    try {
+      final fileName = file.path.split('/').last;
+      final formData = FormData.fromMap({
+        fieldName: await MultipartFile.fromFile(file.path, filename: fileName),
+        if (additionalData != null) ...additionalData,
+      });
+
+      final response = await _dio.post(
+        endpoint,
+        data: formData,
+        queryParameters: queryParameters,
+        options: Options(headers: {'Content-Type': 'multipart/form-data'}),
+        onSendProgress: onSendProgress,
+      );
+
+      return ApiResponse<T>.success(
+        response.data,
+        message: 'File uploaded successfully',
+      );
+    } catch (e) {
+      print('Upload error: $e');
+      return _handleError<T>(e);
+    }
+  }
+
   /// Get cached data
   Future<dynamic> _getCachedData(
     String endpoint,
@@ -591,6 +625,9 @@ class ApiResponse<T> {
   final String? message;
   final bool success;
   final int? statusCode;
+
+  /// Getter for compatibility with existing code
+  bool get isSuccess => success;
 
   ApiResponse._({
     this.data,

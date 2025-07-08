@@ -639,4 +639,33 @@ class AppStrings {
   static const String noSecurityLogs = 'No security activity';
   static const String addedOn = 'Added on';
   static const String justNow = 'Just now';
+
+  // Profile Service Messages
+  static const String loadProfileError = 'Error loading profile';
+  static const String profileUpdatedSuccess = 'Profile updated successfully';
+  static const String updateProfileError = 'Error updating profile';
+  static const String privacySettingsUpdated = 'Privacy settings updated';
+  static const String updatePrivacySettingsError =
+      'Error updating privacy settings';
+  static const String pickImageError = 'Error picking image';
+  static const String avatarUploadedSuccess = 'Avatar uploaded successfully';
+  static const String uploadAvatarError = 'Error uploading avatar';
+  static const String avatarRemovedSuccess = 'Avatar removed successfully';
+  static const String removeAvatarError = 'Error removing avatar';
+  static const String updateStatusError = 'Error updating status';
+  static const String loadActivitiesError = 'Error loading activities';
+  static const String loadUserProfileError = 'Error loading user profile';
+  static const String searchUsersError = 'Error searching users';
+  static const String accountDeactivatedSuccess =
+      'Account deactivated successfully';
+  static const String deactivateAccountError = 'Error deactivating account';
+  static const String accountDeletedSuccess = 'Account deleted successfully';
+  static const String deleteAccountError = 'Error deleting account';
+  static const String dataExportSuccess = 'Data export completed';
+  static const String exportDataError = 'Error exporting data';
+  static const String emailVerifiedSuccess = 'Email verified successfully';
+  static const String verifyEmailError = 'Error verifying email';
+  static const String emailVerificationSent = 'Email verification sent';
+  static const String sendEmailVerificationError =
+      'Error sending email verification';
 }

@@ -144,7 +144,8 @@ class AppConfig {
   static bool get isPushNotificationsEnabled => _enablePushNotifications;
 
   /// Check if logging is enabled
-  static bool get isLoggingEnabled => _enableLogging && (isDevelopment || isStaging);
+  static bool get isLoggingEnabled =>
+      _enableLogging && (isDevelopment || isStaging);
 
   /// Check if crashlytics is enabled
   static bool get isCrashlyticsEnabled => _enableCrashlytics && isProduction;
@@ -172,6 +173,9 @@ class AppConfig {
 
   /// Maximum WebSocket reconnection attempts
   static int get wsMaxReconnectAttempts => _wsMaxReconnectAttempts;
+
+  /// API base URL (alias for baseUrl for backward compatibility)
+  static String get apiBaseUrl => baseUrl;
 
   /// Default page size for pagination
   static int get defaultPageSize => _defaultPageSize;
@@ -249,7 +253,7 @@ class AppConfig {
   static void initialize() {
     try {
       validateConfig();
-      
+
       if (isLoggingEnabled) {
         print('🚀 App Configuration Initialized');
         print(appInfo);

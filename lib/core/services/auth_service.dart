@@ -108,4 +108,32 @@ class AuthService extends GetxService {
       return false;
     }
   }
+
+  /// Check if user is logged in
+  bool get isLoggedIn {
+    // Simple check - in a real app, you'd also validate token expiry
+    return true; // TODO: implement proper logic
+  }
+
+  /// Get current user (stub implementation)
+  User? get currentUser {
+    // TODO: implement proper user data retrieval
+    if (isLoggedIn) {
+      return User(
+        id: 'current_user_id',
+        email: 'user@example.com',
+        name: 'Current User',
+      );
+    }
+    return null;
+  }
+}
+
+/// Simple User model for compatibility
+class User {
+  final String id;
+  final String email;
+  final String name;
+
+  User({required this.id, required this.email, required this.name});
 }

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
 
-/// Application theme configuration for Neru      // TabBar Theme
-      tabBarTheme: TabBarThemeData(
-        labelColor: AppColors.primaryBlue,k
+/// Application theme configuration for NeruTalk
 /// Provides consistent styling across light and dark themes
 class AppTheme {
   // Private constructor to prevent instantiation
@@ -174,7 +172,7 @@ class AppTheme {
       ),
 
       // Tab Bar Theme
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: AppColors.primaryBlue,
         unselectedLabelColor: AppColors.grey500,
         indicatorColor: AppColors.primaryBlue,
@@ -210,7 +208,7 @@ class AppTheme {
       ),
 
       // Dialog Theme
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.lightBackground,
         elevation: 8,
         shadowColor: AppColors.lightShadow,
@@ -403,7 +401,7 @@ class AppTheme {
       ),
 
       // Card Theme
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.darkCard,
         elevation: 2,
         shadowColor: AppColors.darkShadow,
@@ -518,7 +516,7 @@ class AppTheme {
       ),
 
       // Tab Bar Theme
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: AppColors.primaryBlueLight,
         unselectedLabelColor: AppColors.grey500,
         indicatorColor: AppColors.primaryBlueLight,
@@ -554,7 +552,7 @@ class AppTheme {
       ),
 
       // Dialog Theme
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.darkSurface,
         elevation: 8,
         shadowColor: AppColors.darkShadow,

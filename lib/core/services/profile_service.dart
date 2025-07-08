@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
 import '../config/app_config.dart';
 import '../constants/app_strings.dart';
 import '../../domain/models/profile_models.dart';
-import '../../domain/models/user_models.dart';
 import 'network_service.dart';
 import 'auth_service.dart';
 
@@ -68,13 +66,13 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.put(
         '${AppConfig.apiBaseUrl}/profile',
-        updates,
+        data: updates,
       );
 
       if (response.isSuccess) {
         _currentProfile.value = UserProfile.fromJson(response.data);
         _addActivity('profile_updated', 'Profile information updated');
-        
+
         Get.snackbar(
           AppStrings.success,
           AppStrings.profileUpdatedSuccess,
@@ -99,7 +97,7 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.put(
         '${AppConfig.apiBaseUrl}/profile/privacy',
-        settings.toJson(),
+        data: settings.toJson(),
       );
 
       if (response.isSuccess) {
@@ -107,9 +105,9 @@ class ProfileService extends GetxService {
         _currentProfile.value = _currentProfile.value?.copyWith(
           privacySettings: updatedSettings,
         );
-        
+
         _addActivity('privacy_updated', 'Privacy settings updated');
-        
+
         Get.snackbar(
           AppStrings.success,
           AppStrings.privacySettingsUpdated,
@@ -128,7 +126,9 @@ class ProfileService extends GetxService {
   }
 
   /// Pick and upload avatar image
-  Future<bool> pickAndUploadAvatar({ImageSource source = ImageSource.gallery}) async {
+  Future<bool> pickAndUploadAvatar({
+    ImageSource source = ImageSource.gallery,
+  }) async {
     try {
       final XFile? pickedFile = await _imagePicker.pickImage(
         source: source,
@@ -155,29 +155,25 @@ class ProfileService extends GetxService {
     _isUploadingAvatar.value = true;
     try {
       // Create form data for file upload
-      final fileName = path.basename(imageFile.path);
-      final fileSize = await imageFile.length();
-      
       // Create multipart request
       final response = await _networkService.uploadFile(
         '${AppConfig.apiBaseUrl}/profile/avatar',
         imageFile,
-        fileName: fileName,
         fieldName: 'avatar',
       );
 
       if (response.isSuccess) {
         final avatarUpload = AvatarUpload.fromJson(response.data);
         _currentAvatarUpload.value = avatarUpload;
-        
+
         // Update current profile with new avatar URL
         if (avatarUpload.status == UploadStatus.completed) {
           _currentProfile.value = _currentProfile.value?.copyWith(
             avatarUrl: avatarUpload.originalUrl,
           );
-          
+
           _addActivity('avatar_changed', 'Profile photo updated');
-          
+
           Get.snackbar(
             AppStrings.success,
             AppStrings.avatarUploadedSuccess,
@@ -210,9 +206,9 @@ class ProfileService extends GetxService {
           avatarUrl: null,
         );
         _currentAvatarUpload.value = null;
-        
+
         _addActivity('avatar_removed', 'Profile photo removed');
-        
+
         Get.snackbar(
           AppStrings.success,
           AppStrings.avatarRemovedSuccess,
@@ -240,7 +236,7 @@ class ProfileService extends GetxService {
 
       final response = await _networkService.put(
         '${AppConfig.apiBaseUrl}/profile/status',
-        updates,
+        data: updates,
       );
 
       if (response.isSuccess) {
@@ -248,7 +244,7 @@ class ProfileService extends GetxService {
           status: status,
           statusMessage: statusMessage,
         );
-        
+
         _addActivity('status_changed', 'Status updated to $status');
         return true;
       }
@@ -267,7 +263,7 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.get(
         '${AppConfig.apiBaseUrl}/profile/activities',
-        queryParams: {'limit': limit.toString()},
+        queryParameters: {'limit': limit.toString()},
       );
 
       if (response.isSuccess) {
@@ -310,10 +306,7 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.get(
         '${AppConfig.apiBaseUrl}/users/search',
-        queryParams: {
-          'q': query,
-          'limit': limit.toString(),
-        },
+        queryParameters: {'q': query, 'limit': limit.toString()},
       );
 
       if (response.isSuccess) {
@@ -336,16 +329,16 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.put(
         '${AppConfig.apiBaseUrl}/profile/deactivate',
-        {},
+        data: {},
       );
 
       if (response.isSuccess) {
         _currentProfile.value = _currentProfile.value?.copyWith(
           isActive: false,
         );
-        
+
         _addActivity('account_deactivated', 'Account deactivated');
-        
+
         Get.snackbar(
           AppStrings.success,
           AppStrings.accountDeactivatedSuccess,
@@ -375,9 +368,9 @@ class ProfileService extends GetxService {
         _currentProfile.value = null;
         _activities.clear();
         _currentAvatarUpload.value = null;
-        
+
         await _authService.logout();
-        
+
         Get.snackbar(
           AppStrings.success,
           AppStrings.accountDeletedSuccess,
@@ -425,16 +418,16 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.post(
         '${AppConfig.apiBaseUrl}/profile/verify-email',
-        {'verification_code': verificationCode},
+        data: {'verification_code': verificationCode},
       );
 
       if (response.isSuccess) {
         _currentProfile.value = _currentProfile.value?.copyWith(
           isEmailVerified: true,
         );
-        
+
         _addActivity('email_verified', 'Email address verified');
-        
+
         Get.snackbar(
           AppStrings.success,
           AppStrings.emailVerifiedSuccess,
@@ -457,7 +450,7 @@ class ProfileService extends GetxService {
     try {
       final response = await _networkService.post(
         '${AppConfig.apiBaseUrl}/profile/send-email-verification',
-        {},
+        data: {},
       );
 
       if (response.isSuccess) {
@@ -525,12 +518,12 @@ class ProfileService extends GetxService {
     const suffixes = ['B', 'KB', 'MB', 'GB'];
     var i = 0;
     double size = bytes.toDouble();
-    
+
     while (size >= 1024 && i < suffixes.length - 1) {
       size /= 1024;
       i++;
     }
-    
+
     return '${size.toStringAsFixed(1)} ${suffixes[i]}';
   }
 
