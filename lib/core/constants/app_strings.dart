@@ -86,6 +86,19 @@ class AppStrings {
   static const String privacyPolicy = 'privacy_policy';
   static const String alreadyHaveAccount = 'already_have_account';
   
+  // Media & Files
+  static const String mediaGallery = 'media_gallery';
+  static const String noMediaFiles = 'no_media_files';
+  static const String shareFirstMedia = 'share_first_media';
+  static const String all = 'all';
+  static const String images = 'images';
+  static const String videos = 'videos';
+  static const String documents = 'documents';
+  static const String stickers = 'stickers';
+  static const String noStickers = 'no_stickers';
+  static const String downloadStickerPacks = 'download_sticker_packs';
+  static const String stickerStore = 'sticker_store';
+  
   // Video Calls
   static const String noCallHistory = 'no_call_history';
   static const String startFirstCall = 'start_first_call';

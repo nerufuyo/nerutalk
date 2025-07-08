@@ -18,6 +18,10 @@ import '../pages/video_call/call_history_page.dart';
 import '../pages/video_call/call_history_binding.dart';
 import '../pages/video_call/video_call_page.dart';
 import '../pages/video_call/video_call_binding.dart';
+import '../pages/media/media_gallery_page.dart';
+import '../pages/media/media_gallery_binding.dart';
+import '../pages/media/sticker_gallery_page.dart';
+import '../pages/media/sticker_gallery_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -99,6 +103,23 @@ abstract class AppPages {
       page: () => const VideoCallPage(),
       binding: VideoCallBinding(),
       transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Media Pages
+    GetPage(
+      name: AppRoutes.gallery,
+      page: () => const MediaGalleryPage(),
+      binding: MediaGalleryBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.stickers,
+      page: () => const StickerGalleryPage(),
+      binding: StickerGalleryBinding(),
+      transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
   ];
