@@ -30,6 +30,12 @@ import '../pages/notifications/notification_preferences_page.dart';
 import '../pages/notifications/notification_preferences_binding.dart';
 import '../pages/profile/profile_page.dart';
 import '../pages/profile/profile_binding.dart';
+import '../pages/settings/settings_page.dart';
+import '../pages/settings/settings_binding.dart';
+import '../pages/settings/privacy_settings_page.dart';
+import '../pages/settings/privacy_settings_binding.dart';
+import '../pages/settings/security_settings_page.dart';
+import '../pages/settings/security_settings_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -162,6 +168,31 @@ abstract class AppPages {
       name: AppRoutes.profile,
       page: () => const ProfilePage(),
       binding: ProfileBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Settings Pages
+    GetPage(
+      name: AppRoutes.settings,
+      page: () => const SettingsPage(),
+      binding: SettingsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.privacy,
+      page: () => const PrivacySettingsPage(),
+      binding: PrivacySettingsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.security,
+      page: () => const SecuritySettingsPage(),
+      binding: SecuritySettingsBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
