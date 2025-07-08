@@ -86,6 +86,23 @@ class AppStrings {
   static const String privacyPolicy = 'privacy_policy';
   static const String alreadyHaveAccount = 'already_have_account';
   
+  // Location & Geofencing
+  static const String location = 'location';
+  static const String currentLocation = 'current_location';
+  static const String locationNotAvailable = 'location_not_available';
+  static const String accuracy = 'accuracy';
+  static const String nearbyUsers = 'nearby_users';
+  static const String noNearbyUsers = 'no_nearby_users';
+  static const String geofences = 'geofences';
+  static const String noGeofences = 'no_geofences';
+  static const String radius = 'radius';
+  static const String locationHistory = 'location_history';
+  static const String viewAll = 'view_all';
+  static const String noLocationHistory = 'no_location_history';
+  static const String daysAgo = 'days_ago';
+  static const String hoursAgo = 'hours_ago';
+  static const String minutesAgo = 'minutes_ago';
+  
   // Media & Files
   static const String mediaGallery = 'media_gallery';
   static const String noMediaFiles = 'no_media_files';

@@ -22,6 +22,8 @@ import '../pages/media/media_gallery_page.dart';
 import '../pages/media/media_gallery_binding.dart';
 import '../pages/media/sticker_gallery_page.dart';
 import '../pages/media/sticker_gallery_binding.dart';
+import '../pages/location/location_page.dart';
+import '../pages/location/location_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -119,6 +121,15 @@ abstract class AppPages {
       name: AppRoutes.stickers,
       page: () => const StickerGalleryPage(),
       binding: StickerGalleryBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Location Pages
+    GetPage(
+      name: AppRoutes.location,
+      page: () => const LocationPage(),
+      binding: LocationBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
