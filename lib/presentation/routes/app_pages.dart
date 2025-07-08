@@ -14,6 +14,10 @@ import '../pages/chat/chat_list_page.dart';
 import '../pages/chat/chat_list_binding.dart';
 import '../pages/chat/chat_detail_page.dart';
 import '../pages/chat/chat_detail_binding.dart';
+import '../pages/video_call/call_history_page.dart';
+import '../pages/video_call/call_history_binding.dart';
+import '../pages/video_call/video_call_page.dart';
+import '../pages/video_call/video_call_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -78,6 +82,23 @@ abstract class AppPages {
       page: () => const ChatDetailPage(),
       binding: ChatDetailBinding(),
       transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Video Call Pages
+    GetPage(
+      name: AppRoutes.calls,
+      page: () => const CallHistoryPage(),
+      binding: CallHistoryBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.videoCall,
+      page: () => const VideoCallPage(),
+      binding: VideoCallBinding(),
+      transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 300),
     ),
   ];

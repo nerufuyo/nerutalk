@@ -29,9 +29,28 @@ class HomeController extends GetxController {
   void onTabSelected(int index) {
     selectedIndex.value = index;
     
-    // Navigate to chat list when chats tab is selected
-    if (index == 0) {
-      Get.toNamed(AppRoutes.chats);
+    // Navigate to appropriate pages based on tab
+    switch (index) {
+      case 0: // Chats
+        Get.toNamed(AppRoutes.chats);
+        break;
+      case 1: // Contacts
+        Get.snackbar(
+          AppStrings.info.tr,
+          AppStrings.contactsComingSoon.tr,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        break;
+      case 2: // Calls
+        Get.toNamed(AppRoutes.calls);
+        break;
+      case 3: // Settings
+        Get.snackbar(
+          AppStrings.info.tr,
+          AppStrings.settingsComingSoon.tr,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        break;
     }
   }
   

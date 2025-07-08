@@ -86,6 +86,16 @@ class AppStrings {
   static const String privacyPolicy = 'privacy_policy';
   static const String alreadyHaveAccount = 'already_have_account';
   
+  // Video Calls
+  static const String noCallHistory = 'no_call_history';
+  static const String startFirstCall = 'start_first_call';
+  static const String newCall = 'new_call';
+  static const String incoming = 'incoming';
+  static const String outgoing = 'outgoing';
+  static const String declined = 'declined';
+  static const String missed = 'missed';
+  static const String unknown = 'unknown';
+  
   // Chat
   static const String noChats = 'no_chats';
   static const String startConversation = 'start_conversation';
