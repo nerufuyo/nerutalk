@@ -7,9 +7,9 @@ class ChatDetailController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool isSending = false.obs;
   final RxString chatName = ''.obs;
-  
+
   final TextEditingController messageController = TextEditingController();
-  
+
   String? chatId;
 
   @override
@@ -39,10 +39,10 @@ class ChatDetailController extends GetxController {
   Future<void> loadMessages() async {
     try {
       isLoading.value = true;
-      
+
       // TODO: Replace with actual API call
       await Future.delayed(const Duration(seconds: 1));
-      
+
       // Mock data for now
       messages.value = [
         Message(
@@ -53,6 +53,7 @@ class ChatDetailController extends GetxController {
           content: 'Hey, how are you doing?',
           type: MessageType.text,
           createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+          updatedAt: DateTime.now().subtract(const Duration(minutes: 15)),
         ),
         Message(
           id: '2',
@@ -62,6 +63,7 @@ class ChatDetailController extends GetxController {
           content: 'I\'m doing great! How about you?',
           type: MessageType.text,
           createdAt: DateTime.now().subtract(const Duration(minutes: 10)),
+          updatedAt: DateTime.now().subtract(const Duration(minutes: 10)),
         ),
         Message(
           id: '3',
@@ -71,6 +73,7 @@ class ChatDetailController extends GetxController {
           content: 'Pretty good! Working on some Flutter projects.',
           type: MessageType.text,
           createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+          updatedAt: DateTime.now().subtract(const Duration(minutes: 5)),
         ),
       ].reversed.toList();
     } catch (e) {
@@ -86,7 +89,7 @@ class ChatDetailController extends GetxController {
 
     try {
       isSending.value = true;
-      
+
       // Create new message
       final newMessage = Message(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -96,15 +99,15 @@ class ChatDetailController extends GetxController {
         content: content,
         type: MessageType.text,
         createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
 
       // Add to local list first for immediate UI update
       messages.insert(0, newMessage);
       messageController.clear();
-      
+
       // TODO: Send to backend via API
       await Future.delayed(const Duration(seconds: 1));
-      
     } catch (e) {
       Get.snackbar('Error', 'Failed to send message: $e');
       // Remove message from list if sending failed

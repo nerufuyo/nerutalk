@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:hive/hive.dart';
 import '../config/app_config.dart';
-import '../constants/app_strings.dart';
 import 'auth_service.dart';
 
 /// Network service for handling API requests with offline support
@@ -50,16 +48,7 @@ class NetworkService extends getx.GetxService {
 
   /// Initialize network service
   Future<void> _initializeService() async {
-    _logger = Logger(
-      printer: PrettyPrinter(
-        methodCount: 1,
-        errorMethodCount: 5,
-        lineLength: 50,
-        colors: true,
-        printEmojis: true,
-        printTime: true,
-      ),
-    );
+    print('Initializing NetworkService...');
 
     _connectivity = Connectivity();
 
@@ -90,7 +79,7 @@ class NetworkService extends getx.GetxService {
     // Add interceptors
     _dio.interceptors.add(AuthInterceptor());
     _dio.interceptors.add(CacheInterceptor(_cacheBox));
-    _dio.interceptors.add(LoggingInterceptor(_logger));
+    // No logging interceptor needed anymore
     _dio.interceptors.add(RetryInterceptor(_dio));
     _dio.interceptors.add(ErrorInterceptor());
   }
@@ -105,7 +94,7 @@ class NetworkService extends getx.GetxService {
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
       _updateConnectionStatus,
       onError: (error) {
-        _logger.e('Connectivity error: $error');
+        print('Connectivity error: $error');
       },
     );
   }
@@ -137,7 +126,7 @@ class NetworkService extends getx.GetxService {
         break;
     }
 
-    _logger.i(
+    print(
       'Connection status: ${_connectionType.value}, Online: ${_isOnline.value}',
     );
 
@@ -352,7 +341,7 @@ class NetworkService extends getx.GetxService {
         // Check if cache is still valid
         if (DateTime.now().difference(cacheTime).inSeconds <=
             AppConfig.cacheMaxAge) {
-          _logger.i('Using cached data for: $endpoint');
+          print('Using cached data for: $endpoint');
           return cache['data'];
         } else {
           // Remove expired cache
@@ -362,7 +351,7 @@ class NetworkService extends getx.GetxService {
 
       return null;
     } catch (e) {
-      _logger.e('Error getting cached data: $e');
+      print('Error getting cached data: $e');
       return null;
     }
   }
@@ -399,9 +388,9 @@ class NetworkService extends getx.GetxService {
       _offlineQueue.add(request);
       await _saveOfflineQueue();
 
-      _logger.i('Queued offline request: $method $endpoint');
+      print('Queued offline request: $method $endpoint');
     } catch (e) {
-      _logger.e('Error queuing offline request: $e');
+      print('Error queuing offline request: $e');
     }
   }
 
@@ -420,7 +409,7 @@ class NetworkService extends getx.GetxService {
   Future<void> _processOfflineQueue() async {
     if (_offlineQueue.isEmpty) return;
 
-    _logger.i('Processing ${_offlineQueue.length} offline requests');
+    print('Processing ${_offlineQueue.length} offline requests');
 
     final requestsToRemove = <OfflineRequest>[];
 
@@ -464,12 +453,12 @@ class NetworkService extends getx.GetxService {
             response.statusCode! >= 200 &&
             response.statusCode! < 300) {
           requestsToRemove.add(request);
-          _logger.i(
+          print(
             'Successfully processed offline request: ${request.method} ${request.endpoint}',
           );
         }
       } catch (e) {
-        _logger.e(
+        print(
           'Failed to process offline request: ${request.method} ${request.endpoint}, Error: $e',
         );
 
@@ -496,7 +485,7 @@ class NetworkService extends getx.GetxService {
           .toList();
       await _offlineQueueBox.put('queue', queueData);
     } catch (e) {
-      _logger.e('Error saving offline queue: $e');
+      print('Error saving offline queue: $e');
     }
   }
 
@@ -513,10 +502,10 @@ class NetworkService extends getx.GetxService {
             );
           }
         }
-        _logger.i('Loaded ${_offlineQueue.length} offline requests');
+        print('Loaded ${_offlineQueue.length} offline requests');
       }
     } catch (e) {
-      _logger.e('Error loading offline queue: $e');
+      print('Error loading offline queue: $e');
     }
   }
 
@@ -553,7 +542,7 @@ class NetworkService extends getx.GetxService {
       }
     }
 
-    _logger.e('Network error: $message', error, StackTrace.current);
+    print('Network error: $message');
     return ApiResponse<T>.error(message, statusCode: statusCode);
   }
 
@@ -561,9 +550,9 @@ class NetworkService extends getx.GetxService {
   Future<void> clearCache() async {
     try {
       await _cacheBox.clear();
-      _logger.i('Cache cleared successfully');
+      print('Cache cleared successfully');
     } catch (e) {
-      _logger.e('Error clearing cache: $e');
+      print('Error clearing cache: $e');
     }
   }
 
@@ -572,9 +561,9 @@ class NetworkService extends getx.GetxService {
     try {
       _offlineQueue.clear();
       await _offlineQueueBox.clear();
-      _logger.i('Offline queue cleared successfully');
+      print('Offline queue cleared successfully');
     } catch (e) {
-      _logger.e('Error clearing offline queue: $e');
+      print('Error clearing offline queue: $e');
     }
   }
 
@@ -585,7 +574,7 @@ class NetworkService extends getx.GetxService {
       // In a real app, you might want to calculate actual file sizes
       return _cacheBox.length.toDouble();
     } catch (e) {
-      _logger.e('Error getting cache size: $e');
+      print('Error getting cache size: $e');
       return 0.0;
     }
   }
@@ -748,42 +737,6 @@ class CacheInterceptor extends Interceptor {
   }
 }
 
-/// Logging interceptor
-class LoggingInterceptor extends Interceptor {
-  final Logger _logger;
-
-  LoggingInterceptor(this._logger);
-
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (AppConfig.isLoggingEnabled) {
-      _logger.i('🚀 ${options.method} ${options.uri}');
-      if (options.data != null) {
-        _logger.d('📤 Request data: ${options.data}');
-      }
-    }
-    handler.next(options);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (AppConfig.isLoggingEnabled) {
-      _logger.i('✅ ${response.statusCode} ${response.requestOptions.uri}');
-      _logger.d('📥 Response data: ${response.data}');
-    }
-    handler.next(response);
-  }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (AppConfig.isLoggingEnabled) {
-      _logger.e('❌ ${err.response?.statusCode} ${err.requestOptions.uri}');
-      _logger.e('Error: ${err.message}');
-    }
-    handler.next(err);
-  }
-}
-
 /// Retry interceptor
 class RetryInterceptor extends Interceptor {
   final Dio _dio;
@@ -799,7 +752,9 @@ class RetryInterceptor extends Interceptor {
       err.requestOptions.extra['retryCount'] = retryCount;
 
       await Future.delayed(
-        Duration(milliseconds: AppConfig.wsReconnectDelay * retryCount),
+        Duration(
+          milliseconds: (AppConfig.wsReconnectDelay * retryCount).toInt(),
+        ),
       );
 
       try {

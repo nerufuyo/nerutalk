@@ -1,7 +1,5 @@
-import 'package:equatable/equatable.dart';
-
 /// App settings model
-class AppSettings extends Equatable {
+class AppSettings {
   final String userId;
   final String language;
   final String theme; // 'light', 'dark', 'system'
@@ -49,8 +47,8 @@ class AppSettings extends Equatable {
       enableLocationServices: json['enable_location_services'] ?? false,
       enableBiometric: json['enable_biometric'] ?? false,
       dataUsageMode: json['data_usage_mode'] ?? 'unlimited',
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -73,24 +71,6 @@ class AppSettings extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        userId,
-        language,
-        theme,
-        fontSize,
-        enableAnimations,
-        enableSounds,
-        enableVibration,
-        enableNotifications,
-        enableAutoDownload,
-        downloadQuality,
-        enableLocationServices,
-        enableBiometric,
-        dataUsageMode,
-        updatedAt,
-      ];
 
   AppSettings copyWith({
     String? userId,
@@ -119,7 +99,8 @@ class AppSettings extends Equatable {
       enableNotifications: enableNotifications ?? this.enableNotifications,
       enableAutoDownload: enableAutoDownload ?? this.enableAutoDownload,
       downloadQuality: downloadQuality ?? this.downloadQuality,
-      enableLocationServices: enableLocationServices ?? this.enableLocationServices,
+      enableLocationServices:
+          enableLocationServices ?? this.enableLocationServices,
       enableBiometric: enableBiometric ?? this.enableBiometric,
       dataUsageMode: dataUsageMode ?? this.dataUsageMode,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -128,7 +109,7 @@ class AppSettings extends Equatable {
 }
 
 /// Privacy settings model
-class PrivacySettings extends Equatable {
+class PrivacySettings {
   final String userId;
   final bool showLastSeen;
   final bool showOnlineStatus;
@@ -182,8 +163,8 @@ class PrivacySettings extends Equatable {
       readReceipts: json['read_receipts'] ?? true,
       typingIndicators: json['typing_indicators'] ?? true,
       blockedUsers: List<String>.from(json['blocked_users'] ?? []),
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -208,26 +189,6 @@ class PrivacySettings extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        userId,
-        showLastSeen,
-        showOnlineStatus,
-        showProfilePhoto,
-        showAbout,
-        showPhoneNumber,
-        allowGroupInvites,
-        allowContactsToAddMe,
-        allowStrangersToAddMe,
-        whoCanSeeMyStory,
-        whoCanCallMe,
-        whoCanAddMeToGroups,
-        readReceipts,
-        typingIndicators,
-        blockedUsers,
-        updatedAt,
-      ];
 
   PrivacySettings copyWith({
     String? userId,
@@ -256,7 +217,8 @@ class PrivacySettings extends Equatable {
       showPhoneNumber: showPhoneNumber ?? this.showPhoneNumber,
       allowGroupInvites: allowGroupInvites ?? this.allowGroupInvites,
       allowContactsToAddMe: allowContactsToAddMe ?? this.allowContactsToAddMe,
-      allowStrangersToAddMe: allowStrangersToAddMe ?? this.allowStrangersToAddMe,
+      allowStrangersToAddMe:
+          allowStrangersToAddMe ?? this.allowStrangersToAddMe,
       whoCanSeeMyStory: whoCanSeeMyStory ?? this.whoCanSeeMyStory,
       whoCanCallMe: whoCanCallMe ?? this.whoCanCallMe,
       whoCanAddMeToGroups: whoCanAddMeToGroups ?? this.whoCanAddMeToGroups,
@@ -269,7 +231,7 @@ class PrivacySettings extends Equatable {
 }
 
 /// Security settings model
-class SecuritySettings extends Equatable {
+class SecuritySettings {
   final String userId;
   final bool twoFactorAuth;
   final bool biometricAuth;
@@ -307,16 +269,19 @@ class SecuritySettings extends Equatable {
       lockTimeout: json['lock_timeout'] ?? 30,
       incognitoKeyboard: json['incognito_keyboard'] ?? false,
       showSecurityNotifications: json['show_security_notifications'] ?? true,
-      requireAuthForSensitiveActions: json['require_auth_for_sensitive_actions'] ?? true,
+      requireAuthForSensitiveActions:
+          json['require_auth_for_sensitive_actions'] ?? true,
       trustedDevices: List<String>.from(json['trusted_devices'] ?? []),
-      securityLogs: (json['security_logs'] as List?)
-          ?.map((log) => SecurityLog.fromJson(log))
-          .toList() ?? [],
-      lastPasswordChange: json['last_password_change'] != null 
-          ? DateTime.parse(json['last_password_change']) 
+      securityLogs:
+          (json['security_logs'] as List?)
+              ?.map((log) => SecurityLog.fromJson(log))
+              .toList() ??
+          [],
+      lastPasswordChange: json['last_password_change'] != null
+          ? DateTime.parse(json['last_password_change'])
           : null,
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -337,22 +302,6 @@ class SecuritySettings extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        userId,
-        twoFactorAuth,
-        biometricAuth,
-        screenLock,
-        lockTimeout,
-        incognitoKeyboard,
-        showSecurityNotifications,
-        requireAuthForSensitiveActions,
-        trustedDevices,
-        securityLogs,
-        lastPasswordChange,
-        updatedAt,
-      ];
 
   SecuritySettings copyWith({
     String? userId,
@@ -375,8 +324,10 @@ class SecuritySettings extends Equatable {
       screenLock: screenLock ?? this.screenLock,
       lockTimeout: lockTimeout ?? this.lockTimeout,
       incognitoKeyboard: incognitoKeyboard ?? this.incognitoKeyboard,
-      showSecurityNotifications: showSecurityNotifications ?? this.showSecurityNotifications,
-      requireAuthForSensitiveActions: requireAuthForSensitiveActions ?? this.requireAuthForSensitiveActions,
+      showSecurityNotifications:
+          showSecurityNotifications ?? this.showSecurityNotifications,
+      requireAuthForSensitiveActions:
+          requireAuthForSensitiveActions ?? this.requireAuthForSensitiveActions,
       trustedDevices: trustedDevices ?? this.trustedDevices,
       securityLogs: securityLogs ?? this.securityLogs,
       lastPasswordChange: lastPasswordChange ?? this.lastPasswordChange,
@@ -386,7 +337,7 @@ class SecuritySettings extends Equatable {
 }
 
 /// Security log model
-class SecurityLog extends Equatable {
+class SecurityLog {
   final String id;
   final String userId;
   final String action;
@@ -428,21 +379,10 @@ class SecurityLog extends Equatable {
       'timestamp': timestamp.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        userId,
-        action,
-        deviceInfo,
-        ipAddress,
-        location,
-        timestamp,
-      ];
 }
 
 /// Account settings model
-class AccountSettings extends Equatable {
+class AccountSettings {
   final String userId;
   final bool isActive;
   final bool emailVerified;
@@ -481,25 +421,25 @@ class AccountSettings extends Equatable {
       isActive: json['is_active'] ?? true,
       emailVerified: json['email_verified'] ?? false,
       phoneVerified: json['phone_verified'] ?? false,
-      accountCreatedAt: json['account_created_at'] != null 
-          ? DateTime.parse(json['account_created_at']) 
+      accountCreatedAt: json['account_created_at'] != null
+          ? DateTime.parse(json['account_created_at'])
           : null,
-      lastLoginAt: json['last_login_at'] != null 
-          ? DateTime.parse(json['last_login_at']) 
+      lastLoginAt: json['last_login_at'] != null
+          ? DateTime.parse(json['last_login_at'])
           : null,
-      lastActiveAt: json['last_active_at'] != null 
-          ? DateTime.parse(json['last_active_at']) 
+      lastActiveAt: json['last_active_at'] != null
+          ? DateTime.parse(json['last_active_at'])
           : null,
       accountType: json['account_type'] ?? 'free',
       subscriptionStatus: json['subscription_status'] ?? 'active',
-      subscriptionExpiresAt: json['subscription_expires_at'] != null 
-          ? DateTime.parse(json['subscription_expires_at']) 
+      subscriptionExpiresAt: json['subscription_expires_at'] != null
+          ? DateTime.parse(json['subscription_expires_at'])
           : null,
       allowDataCollection: json['allow_data_collection'] ?? false,
       allowAnalytics: json['allow_analytics'] ?? false,
       allowMarketing: json['allow_marketing'] ?? false,
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -522,24 +462,6 @@ class AccountSettings extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        userId,
-        isActive,
-        emailVerified,
-        phoneVerified,
-        accountCreatedAt,
-        lastLoginAt,
-        lastActiveAt,
-        accountType,
-        subscriptionStatus,
-        subscriptionExpiresAt,
-        allowDataCollection,
-        allowAnalytics,
-        allowMarketing,
-        updatedAt,
-      ];
 
   AccountSettings copyWith({
     String? userId,
@@ -567,7 +489,8 @@ class AccountSettings extends Equatable {
       lastActiveAt: lastActiveAt ?? this.lastActiveAt,
       accountType: accountType ?? this.accountType,
       subscriptionStatus: subscriptionStatus ?? this.subscriptionStatus,
-      subscriptionExpiresAt: subscriptionExpiresAt ?? this.subscriptionExpiresAt,
+      subscriptionExpiresAt:
+          subscriptionExpiresAt ?? this.subscriptionExpiresAt,
       allowDataCollection: allowDataCollection ?? this.allowDataCollection,
       allowAnalytics: allowAnalytics ?? this.allowAnalytics,
       allowMarketing: allowMarketing ?? this.allowMarketing,

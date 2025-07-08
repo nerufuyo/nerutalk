@@ -15,30 +15,32 @@ import 'core/services/settings_service.dart';
 /// Initializes all core services and dependencies before starting the app
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Hive for local storage
   await Hive.initFlutter();
-  
+
   // Initialize app configuration
   AppConfig.initialize();
-  
+
   // Initialize services
   await _initializeServices();
-  
+
   // Set system UI overlay style
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarColor: Colors.white,
-    systemNavigationBarIconBrightness: Brightness.dark,
-  ));
-  
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  
+
   runApp(const NeruTalkApp());
 }
 
@@ -47,7 +49,7 @@ Future<void> _initializeServices() async {
   try {
     // Initialize translation service
     await AppTranslations.initializeLanguage();
-    
+
     // Initialize and register core services with GetX
     Get.put<AuthService>(AuthService(), permanent: true);
     Get.put<NetworkService>(NetworkService(), permanent: true);
@@ -57,16 +59,10 @@ Future<void> _initializeServices() async {
 
     // Wait for all services to be ready
     await Get.find<NetworkService>().onReady;
-    
+
     print('✅ All services initialized successfully');
   } catch (e) {
     print('❌ Error initializing services: $e');
     rethrow;
-  }
-}
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
   }
 }

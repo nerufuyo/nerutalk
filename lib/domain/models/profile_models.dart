@@ -1,7 +1,5 @@
-import 'package:equatable/equatable.dart';
-
 /// Extended user profile model with comprehensive user information
-class UserProfile extends Equatable {
+class UserProfile {
   final String id;
   final String username;
   final String email;
@@ -61,8 +59,8 @@ class UserProfile extends Equatable {
       bio: json['bio'],
       avatarUrl: json['avatar_url'],
       phoneNumber: json['phone_number'],
-      dateOfBirth: json['date_of_birth'] != null 
-          ? DateTime.parse(json['date_of_birth']) 
+      dateOfBirth: json['date_of_birth'] != null
+          ? DateTime.parse(json['date_of_birth'])
           : null,
       location: json['location'],
       website: json['website'],
@@ -73,8 +71,8 @@ class UserProfile extends Equatable {
       isActive: json['is_active'] ?? true,
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      lastSeenAt: json['last_seen_at'] != null 
-          ? DateTime.parse(json['last_seen_at']) 
+      lastSeenAt: json['last_seen_at'] != null
+          ? DateTime.parse(json['last_seen_at'])
           : null,
       privacySettings: json['privacy_settings'] != null
           ? ProfilePrivacySettings.fromJson(json['privacy_settings'])
@@ -109,32 +107,6 @@ class UserProfile extends Equatable {
       'metadata': metadata,
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        username,
-        email,
-        displayName,
-        firstName,
-        lastName,
-        bio,
-        avatarUrl,
-        phoneNumber,
-        dateOfBirth,
-        location,
-        website,
-        status,
-        statusMessage,
-        isEmailVerified,
-        isPhoneVerified,
-        isActive,
-        createdAt,
-        updatedAt,
-        lastSeenAt,
-        privacySettings,
-        metadata,
-      ];
 
   UserProfile copyWith({
     String? id,
@@ -206,14 +178,13 @@ class UserProfile extends Equatable {
 
   /// Check if profile is complete
   bool get isProfileComplete {
-    return displayName != null && 
-           bio != null && 
-           avatarUrl != null;
+    return displayName != null && bio != null && avatarUrl != null;
   }
 
   /// Get profile completion percentage
   int get profileCompletionPercentage {
-    int totalFields = 6; // displayName, bio, avatar, phone, location, dateOfBirth
+    int totalFields =
+        6; // displayName, bio, avatar, phone, location, dateOfBirth
     int completedFields = 0;
 
     if (displayName != null && displayName!.isNotEmpty) completedFields++;
@@ -228,7 +199,7 @@ class UserProfile extends Equatable {
 }
 
 /// Profile privacy settings model
-class ProfilePrivacySettings extends Equatable {
+class ProfilePrivacySettings {
   final String userId;
   final bool showEmail;
   final bool showPhoneNumber;
@@ -279,8 +250,8 @@ class ProfilePrivacySettings extends Equatable {
       allowGroupInvites: json['allow_group_invites'] ?? true,
       allowCallsFromContacts: json['allow_calls_from_contacts'] ?? true,
       allowCallsFromAnyone: json['allow_calls_from_anyone'] ?? false,
-      updatedAt: json['updated_at'] != null 
-          ? DateTime.parse(json['updated_at']) 
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
           : null,
     );
   }
@@ -304,25 +275,6 @@ class ProfilePrivacySettings extends Equatable {
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        userId,
-        showEmail,
-        showPhoneNumber,
-        showLastSeen,
-        showOnlineStatus,
-        allowSearchByEmail,
-        allowSearchByPhone,
-        showLocation,
-        allowLocationSharing,
-        profileVisibility,
-        allowFriendRequests,
-        allowGroupInvites,
-        allowCallsFromContacts,
-        allowCallsFromAnyone,
-        updatedAt,
-      ];
 
   ProfilePrivacySettings copyWith({
     String? userId,
@@ -354,7 +306,8 @@ class ProfilePrivacySettings extends Equatable {
       profileVisibility: profileVisibility ?? this.profileVisibility,
       allowFriendRequests: allowFriendRequests ?? this.allowFriendRequests,
       allowGroupInvites: allowGroupInvites ?? this.allowGroupInvites,
-      allowCallsFromContacts: allowCallsFromContacts ?? this.allowCallsFromContacts,
+      allowCallsFromContacts:
+          allowCallsFromContacts ?? this.allowCallsFromContacts,
       allowCallsFromAnyone: allowCallsFromAnyone ?? this.allowCallsFromAnyone,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -362,7 +315,7 @@ class ProfilePrivacySettings extends Equatable {
 }
 
 /// Avatar upload model
-class AvatarUpload extends Equatable {
+class AvatarUpload {
   final String id;
   final String userId;
   final String originalUrl;
@@ -404,8 +357,8 @@ class AvatarUpload extends Equatable {
       height: json['height'],
       status: UploadStatus.values.byName(json['status']),
       createdAt: DateTime.parse(json['created_at']),
-      processedAt: json['processed_at'] != null 
-          ? DateTime.parse(json['processed_at']) 
+      processedAt: json['processed_at'] != null
+          ? DateTime.parse(json['processed_at'])
           : null,
     );
   }
@@ -426,22 +379,6 @@ class AvatarUpload extends Equatable {
       'processed_at': processedAt?.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        userId,
-        originalUrl,
-        thumbnailUrl,
-        fileName,
-        fileSize,
-        mimeType,
-        width,
-        height,
-        status,
-        createdAt,
-        processedAt,
-      ];
 
   AvatarUpload copyWith({
     String? id,
@@ -475,16 +412,10 @@ class AvatarUpload extends Equatable {
 }
 
 /// Upload status enum
-enum UploadStatus {
-  pending,
-  uploading,
-  processing,
-  completed,
-  failed
-}
+enum UploadStatus { pending, uploading, processing, completed, failed }
 
 /// Profile activity model
-class ProfileActivity extends Equatable {
+class ProfileActivity {
   final String id;
   final String userId;
   final String action; // 'profile_updated', 'avatar_changed', 'status_changed'
@@ -522,14 +453,4 @@ class ProfileActivity extends Equatable {
       'created_at': createdAt.toIso8601String(),
     };
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        userId,
-        action,
-        description,
-        metadata,
-        createdAt,
-      ];
 }
