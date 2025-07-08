@@ -86,6 +86,13 @@ class AppStrings {
   static const String privacyPolicy = 'privacy_policy';
   static const String alreadyHaveAccount = 'already_have_account';
   
+  // Chat
+  static const String noChats = 'no_chats';
+  static const String startConversation = 'start_conversation';
+  static const String typeMessage = 'type_message';
+  static const String now = 'now';
+  static const String newChat = 'new_chat';
+  
   // Home
   static const String chats = 'chats';
   static const String contacts = 'contacts';

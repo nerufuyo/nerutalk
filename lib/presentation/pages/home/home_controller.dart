@@ -28,6 +28,11 @@ class HomeController extends GetxController {
   /// Handle bottom navigation tab selection
   void onTabSelected(int index) {
     selectedIndex.value = index;
+    
+    // Navigate to chat list when chats tab is selected
+    if (index == 0) {
+      Get.toNamed(AppRoutes.chats);
+    }
   }
   
   /// Toggle between light and dark theme
@@ -117,8 +122,8 @@ class HomeController extends GetxController {
   /// Open a specific chat
   void openChat(Map<String, dynamic> chat) {
     Get.toNamed(
-      AppRoutes.chat,
-      arguments: chat,
+      AppRoutes.chatDetail,
+      arguments: {'chatId': chat['id']},
     );
   }
   

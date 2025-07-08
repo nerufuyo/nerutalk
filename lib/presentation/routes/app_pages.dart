@@ -10,6 +10,10 @@ import '../pages/auth/register_page.dart';
 import '../pages/auth/register_binding.dart';
 import '../pages/home/home_page.dart';
 import '../pages/home/home_binding.dart';
+import '../pages/chat/chat_list_page.dart';
+import '../pages/chat/chat_list_binding.dart';
+import '../pages/chat/chat_detail_page.dart';
+import '../pages/chat/chat_detail_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -57,6 +61,23 @@ abstract class AppPages {
       page: () => const HomePage(),
       binding: HomeBinding(),
       transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Chat Pages
+    GetPage(
+      name: AppRoutes.chats,
+      page: () => const ChatListPage(),
+      binding: ChatListBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    GetPage(
+      name: AppRoutes.chatDetail,
+      page: () => const ChatDetailPage(),
+      binding: ChatDetailBinding(),
+      transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
   ];
