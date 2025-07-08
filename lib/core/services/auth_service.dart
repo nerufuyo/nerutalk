@@ -1,0 +1,73 @@
+import 'package:get/get.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../constants/app_strings.dart';
+
+/// Basic authentication service for token management
+/// This is a simplified version - will be expanded in the authentication feature
+class AuthService extends GetxService {
+  static const _storage = FlutterSecureStorage();
+  
+  /// Get access token from secure storage
+  Future<String?> getAccessToken() async {
+    try {
+      return await _storage.read(key: AppStrings.accessTokenKey);
+    } catch (e) {
+      return null;
+    }
+  }
+  
+  /// Get refresh token from secure storage
+  Future<String?> getRefreshToken() async {
+    try {
+      return await _storage.read(key: AppStrings.refreshTokenKey);
+    } catch (e) {
+      return null;
+    }
+  }
+  
+  /// Save access token to secure storage
+  Future<void> saveAccessToken(String token) async {
+    try {
+      await _storage.write(key: AppStrings.accessTokenKey, value: token);
+    } catch (e) {
+      // Handle error
+    }
+  }
+  
+  /// Save refresh token to secure storage
+  Future<void> saveRefreshToken(String token) async {
+    try {
+      await _storage.write(key: AppStrings.refreshTokenKey, value: token);
+    } catch (e) {
+      // Handle error
+    }
+  }
+  
+  /// Refresh access token using refresh token
+  Future<bool> refreshToken() async {
+    try {
+      // TODO: Implement actual token refresh logic
+      // This is a placeholder implementation
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+  
+  /// Logout user and clear tokens
+  Future<void> logout() async {
+    try {
+      await _storage.delete(key: AppStrings.accessTokenKey);
+      await _storage.delete(key: AppStrings.refreshTokenKey);
+      await _storage.delete(key: AppStrings.userDataKey);
+    } catch (e) {
+      // Handle error
+    }
+  }
+  
+  /// Check if user is authenticated
+  Future<bool> isAuthenticated() async {
+    final token = await getAccessToken();
+    return token != null && token.isNotEmpty;
+  }
+}

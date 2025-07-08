@@ -1,33 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'app/nerutalk_app.dart';
+import 'core/config/app_config.dart';
+import 'core/services/translation_service.dart';
+import 'core/services/network_service.dart';
+import 'core/services/auth_service.dart';
 
-void main() {
-  runApp(const MyApp());
+/// Main entry point of the NeruTalk application
+/// Initializes all core services and dependencies before starting the app
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Hive for local storage
+  await Hive.initFlutter();
+  
+  // Initialize app configuration
+  AppConfig.initialize();
+  
+  // Initialize services
+  await _initializeServices();
+  
+  // Set system UI overlay style
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarColor: Colors.white,
+    systemNavigationBarIconBrightness: Brightness.dark,
+  ));
+  
+  // Set preferred orientations
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  
+  runApp(const NeruTalkApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
+/// Initialize all core services and dependencies
+Future<void> _initializeServices() async {
+  try {
+    // Initialize translation service
+    await AppTranslations.initializeLanguage();
+    
+    // Initialize and register core services with GetX
+    Get.put<AuthService>(AuthService(), permanent: true);
+    Get.put<NetworkService>(NetworkService(), permanent: true);
+    
+    // Wait for all services to be ready
+    await Get.find<NetworkService>().onReady;
+    
+    print('✅ All services initialized successfully');
+  } catch (e) {
+    print('❌ Error initializing services: $e');
+    rethrow;
+  }
+}
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
