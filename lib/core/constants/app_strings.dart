@@ -466,5 +466,76 @@ class AppStrings {
   static const String removeDeviceTokenError = 'Failed to remove device token';
   static const String loadNotificationStatsError = 'Failed to load statistics';
   static const String loadNotificationPreferencesError = 'Failed to load preferences';
-  static const String updateNotificationPreferencesError = 'Failed to update preferences';
+  
+  // Profile Strings
+  static const String profile = 'Profile';
+  static const String profileCompletion = 'Profile Completion';
+  static const String basicInformation = 'Basic Information';
+  static const String contactInformation = 'Contact Information';
+  static const String displayName = 'Display Name';
+  static const String firstName = 'First Name';
+  static const String lastName = 'Last Name';
+  static const String bio = 'Bio';
+  static const String dateOfBirth = 'Date of Birth';
+  static const String phoneNumber = 'Phone Number';
+  static const String location = 'Location';
+  static const String website = 'Website';
+  static const String status = 'Status';
+  static const String statusMessage = 'Status Message';
+  static const String privacySettings = 'Privacy Settings';
+  static const String profileActivity = 'Profile Activity';
+  static const String accountVerification = 'Account Verification';
+  static const String emailVerification = 'Email Verification';
+  static const String phoneVerification = 'Phone Verification';
+  static const String complete = 'Complete';
+  static const String notProvided = 'Not provided';
+  static const String profileNotFound = 'Profile not found';
+  static const String verify = 'Verify';
+  static const String away = 'Away';
+  static const String busy = 'Busy';
+  
+  // Privacy Settings
+  static const String showEmail = 'Show Email Address';
+  static const String showPhoneNumber = 'Show Phone Number';
+  static const String showLastSeen = 'Show Last Seen';
+  static const String showOnlineStatus = 'Show Online Status';
+  static const String allowFriendRequests = 'Allow Friend Requests';
+  static const String allowGroupInvites = 'Allow Group Invites';
+  static const String allowCallsFromContacts = 'Allow Calls from Contacts';
+  static const String allowCallsFromAnyone = 'Allow Calls from Anyone';
+  static const String profileVisibility = 'Profile Visibility';
+  static const String public = 'Public';
+  static const String contacts = 'Contacts Only';
+  static const String private = 'Private';
+  
+  // Account Actions
+  static const String deactivateAccount = 'Deactivate Account';
+  static const String deleteAccount = 'Delete Account';
+  static const String exportData = 'Export Data';
+  
+  // Profile Messages
+  static const String profileUpdatedSuccess = 'Profile updated successfully';
+  static const String avatarUploadedSuccess = 'Profile photo updated successfully';
+  static const String avatarRemovedSuccess = 'Profile photo removed successfully';
+  static const String privacySettingsUpdated = 'Privacy settings updated successfully';
+  static const String accountDeactivatedSuccess = 'Account deactivated successfully';
+  static const String accountDeletedSuccess = 'Account deleted successfully';
+  static const String dataExportSuccess = 'Data export completed';
+  static const String emailVerifiedSuccess = 'Email verified successfully';
+  static const String emailVerificationSent = 'Verification email sent';
+  static const String loadProfileError = 'Failed to load profile';
+  static const String updateProfileError = 'Failed to update profile';
+  static const String uploadAvatarError = 'Failed to upload profile photo';
+  static const String removeAvatarError = 'Failed to remove profile photo';
+  static const String updatePrivacySettingsError = 'Failed to update privacy settings';
+  static const String deactivateAccountError = 'Failed to deactivate account';
+  static const String deleteAccountError = 'Failed to delete account';
+  static const String exportDataError = 'Failed to export data';
+  static const String verifyEmailError = 'Failed to verify email';
+  static const String sendEmailVerificationError = 'Failed to send verification email';
+  static const String pickImageError = 'Failed to pick image';
+  static const String updateStatusError = 'Failed to update status';
+  static const String loadActivitiesError = 'Failed to load activities';
+  static const String loadUserProfileError = 'Failed to load user profile';
+  static const String searchUsersError = 'Failed to search users';
 }

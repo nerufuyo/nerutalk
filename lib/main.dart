@@ -8,6 +8,7 @@ import 'core/services/translation_service.dart';
 import 'core/services/network_service.dart';
 import 'core/services/auth_service.dart';
 import 'core/services/notification_service.dart';
+import 'core/services/profile_service.dart';
 
 /// Main entry point of the NeruTalk application
 /// Initializes all core services and dependencies before starting the app
@@ -50,6 +51,7 @@ Future<void> _initializeServices() async {
     Get.put<AuthService>(AuthService(), permanent: true);
     Get.put<NetworkService>(NetworkService(), permanent: true);
     Get.put<NotificationService>(NotificationService(), permanent: true);
+    Get.put<ProfileService>(ProfileService(), permanent: true);
 
     // Wait for all services to be ready
     await Get.find<NetworkService>().onReady;

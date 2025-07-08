@@ -28,6 +28,8 @@ import '../pages/notifications/notifications_page.dart';
 import '../pages/notifications/notifications_binding.dart';
 import '../pages/notifications/notification_preferences_page.dart';
 import '../pages/notifications/notification_preferences_binding.dart';
+import '../pages/profile/profile_page.dart';
+import '../pages/profile/profile_binding.dart';
 
 /// Application page routes configuration
 /// Defines all GetX pages with their bindings and transitions
@@ -151,6 +153,15 @@ abstract class AppPages {
       name: AppRoutes.notificationPreferences,
       page: () => const NotificationPreferencesPage(),
       binding: NotificationPreferencesBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+    // Profile Pages
+    GetPage(
+      name: AppRoutes.profile,
+      page: () => const ProfilePage(),
+      binding: ProfileBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
