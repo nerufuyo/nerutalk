@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -160,9 +159,13 @@ class ProfileController extends GetxController {
   Future<void> selectDateOfBirth() async {
     final DateTime? picked = await showDatePicker(
       context: Get.context!,
-      initialDate: _selectedDateOfBirth.value ?? DateTime.now().subtract(const Duration(days: 365 * 20)),
+      initialDate:
+          _selectedDateOfBirth.value ??
+          DateTime.now().subtract(const Duration(days: 365 * 20)),
       firstDate: DateTime(1900),
-      lastDate: DateTime.now().subtract(const Duration(days: 365 * 13)), // 13+ years old
+      lastDate: DateTime.now().subtract(
+        const Duration(days: 365 * 13),
+      ), // 13+ years old
     );
 
     if (picked != null) {
@@ -178,10 +181,7 @@ class ProfileController extends GetxController {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Profile Photo',
-              style: Get.textTheme.headlineSmall,
-            ),
+            Text('Profile Photo', style: Get.textTheme.headlineSmall),
             const SizedBox(height: 20),
             ListTile(
               leading: const Icon(Icons.camera_alt),
@@ -196,7 +196,9 @@ class ProfileController extends GetxController {
               title: const Text('Choose from Gallery'),
               onTap: () {
                 Get.back();
-                _profileService.pickAndUploadAvatar(source: ImageSource.gallery);
+                _profileService.pickAndUploadAvatar(
+                  source: ImageSource.gallery,
+                );
               },
             ),
             if (currentProfile?.avatarUrl != null)
@@ -229,12 +231,11 @@ class ProfileController extends GetxController {
     Get.dialog(
       AlertDialog(
         title: const Text('Remove Profile Photo'),
-        content: const Text('Are you sure you want to remove your profile photo?'),
+        content: const Text(
+          'Are you sure you want to remove your profile photo?',
+        ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -255,11 +256,12 @@ class ProfileController extends GetxController {
 
   /// Update privacy setting
   Future<void> updatePrivacySetting(String setting, bool value) async {
-    final currentSettings = currentProfile?.privacySettings ?? 
+    final currentSettings =
+        currentProfile?.privacySettings ??
         ProfilePrivacySettings(userId: currentProfile?.id ?? '');
 
     ProfilePrivacySettings updatedSettings;
-    
+
     switch (setting) {
       case 'show_email':
         updatedSettings = currentSettings.copyWith(showEmail: value);
@@ -292,7 +294,9 @@ class ProfileController extends GetxController {
         updatedSettings = currentSettings.copyWith(allowGroupInvites: value);
         break;
       case 'allow_calls_from_contacts':
-        updatedSettings = currentSettings.copyWith(allowCallsFromContacts: value);
+        updatedSettings = currentSettings.copyWith(
+          allowCallsFromContacts: value,
+        );
         break;
       case 'allow_calls_from_anyone':
         updatedSettings = currentSettings.copyWith(allowCallsFromAnyone: value);
@@ -306,10 +310,13 @@ class ProfileController extends GetxController {
 
   /// Update profile visibility
   Future<void> updateProfileVisibility(String visibility) async {
-    final currentSettings = currentProfile?.privacySettings ?? 
+    final currentSettings =
+        currentProfile?.privacySettings ??
         ProfilePrivacySettings(userId: currentProfile?.id ?? '');
 
-    final updatedSettings = currentSettings.copyWith(profileVisibility: visibility);
+    final updatedSettings = currentSettings.copyWith(
+      profileVisibility: visibility,
+    );
     await _profileService.updatePrivacySettings(updatedSettings);
   }
 
@@ -322,10 +329,7 @@ class ProfileController extends GetxController {
           'Are you sure you want to deactivate your account? You can reactivate it by logging in again.',
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -348,10 +352,7 @@ class ProfileController extends GetxController {
           'Are you sure you want to permanently delete your account? This action cannot be undone.',
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -368,7 +369,7 @@ class ProfileController extends GetxController {
   /// Show final delete confirmation
   void _showFinalDeleteConfirmation() {
     final confirmationController = TextEditingController();
-    
+
     Get.dialog(
       AlertDialog(
         title: const Text('Final Confirmation'),
@@ -387,20 +388,19 @@ class ProfileController extends GetxController {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
+          Obx(
+            () => ElevatedButton(
+              onPressed: confirmationController.text == 'DELETE'
+                  ? () {
+                      Get.back();
+                      _profileService.deleteAccount();
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text('Delete Account'),
+            ),
           ),
-          Obx(() => ElevatedButton(
-            onPressed: confirmationController.text == 'DELETE'
-                ? () {
-                    Get.back();
-                    _profileService.deleteAccount();
-                  }
-                : null,
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete Account'),
-          )),
         ],
       ),
     );
@@ -417,7 +417,8 @@ class ProfileController extends GetxController {
   }
 
   /// Get profile completion percentage
-  int get profileCompletionPercentage => currentProfile?.profileCompletionPercentage ?? 0;
+  int get profileCompletionPercentage =>
+      currentProfile?.profileCompletionPercentage ?? 0;
 
   /// Get status color
   Color getStatusColor(String? status) {

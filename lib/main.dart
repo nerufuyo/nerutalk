@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'dart:developer' as developer;
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app/nerutalk_app.dart';
 import 'core/config/app_config.dart';
@@ -59,11 +60,14 @@ Future<void> _initializeServices() async {
 
     // Wait for all services to be ready
     // Services are initialized synchronously via Get.put()
-    print('📡 Network service ready: ${Get.find<NetworkService>().isOnline}');
+    developer.log(
+      'Network service ready: ${Get.find<NetworkService>().isOnline}',
+      name: 'App',
+    );
 
-    print('✅ All services initialized successfully');
+    developer.log('All services initialized successfully', name: 'App');
   } catch (e) {
-    print('❌ Error initializing services: $e');
+    developer.log('Error initializing services: $e', name: 'App', level: 1000);
     rethrow;
   }
 }

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../controllers/settings_controller.dart';
 import '../../widgets/common/loading_indicator.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_strings.dart';
 
 /// Main settings page with navigation to different settings sections
 class SettingsPage extends StatelessWidget {

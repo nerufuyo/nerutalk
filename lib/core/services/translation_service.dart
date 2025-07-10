@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -67,7 +68,11 @@ class AppTranslations extends Translations {
         _translations[language['code']!] = Map<String, String>.from(jsonMap);
       } catch (e) {
         // Handle error gracefully, log if needed
-        print('Error loading translation file ${language['file']}: $e');
+        developer.log(
+          'Error loading translation file ${language['file']}: $e',
+          name: 'TranslationService',
+          level: 1000,
+        );
       }
     }
   }
@@ -270,7 +275,6 @@ class AppTranslations extends Translations {
 
   /// Check if current language is RTL (Right-to-Left)
   static bool isRTL() {
-    final locale = Get.locale ?? fallbackLocale;
     // Add RTL language codes here if needed in the future
     // Currently none of our supported languages are RTL
     return false;

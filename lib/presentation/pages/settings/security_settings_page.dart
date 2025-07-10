@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../controllers/settings_controller.dart';
 import '../../widgets/common/loading_indicator.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../domain/models/settings_models.dart';
 
 /// Security settings page for managing security preferences
 class SecuritySettingsPage extends StatelessWidget {
@@ -22,10 +21,7 @@ class SecuritySettingsPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => controller.updateSecuritySettings(),
-            child: Text(
-              'save'.tr,
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text('save'.tr, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -92,14 +88,16 @@ class SecuritySettingsPage extends StatelessWidget {
               title: 'security_notifications'.tr,
               subtitle: 'security_notifications_desc'.tr,
               value: controller.showSecurityNotifications.value,
-              onChanged: (value) => controller.showSecurityNotifications.value = value,
+              onChanged: (value) =>
+                  controller.showSecurityNotifications.value = value,
             ),
             _buildSwitchTile(
               icon: Icons.verified_user,
               title: 'require_auth_for_sensitive'.tr,
               subtitle: 'require_auth_desc'.tr,
               value: controller.requireAuthForSensitiveActions.value,
-              onChanged: (value) => controller.requireAuthForSensitiveActions.value = value,
+              onChanged: (value) =>
+                  controller.requireAuthForSensitiveActions.value = value,
             ),
 
             const SizedBox(height: 24),
@@ -120,9 +118,10 @@ class SecuritySettingsPage extends StatelessWidget {
             _buildActionTile(
               icon: Icons.devices,
               title: 'trusted_devices'.tr,
-              subtitle: controller.trustedDevices.isEmpty 
-                  ? 'no_trusted_devices'.tr 
-                  : '${controller.trustedDevices.length} trusted_devices_count'.tr,
+              subtitle: controller.trustedDevices.isEmpty
+                  ? 'no_trusted_devices'.tr
+                  : '${controller.trustedDevices.length} trusted_devices_count'
+                        .tr,
               onTap: () => _showTrustedDevicesDialog(context, controller),
             ),
             _buildActionTile(
@@ -164,14 +163,8 @@ class SecuritySettingsPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       child: SwitchListTile(
         secondary: Icon(icon, color: AppColors.primary),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(color: Colors.grey[600]),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+        subtitle: Text(subtitle, style: TextStyle(color: Colors.grey[600])),
         value: value,
         onChanged: onChanged,
         activeColor: AppColors.primary,
@@ -192,17 +185,11 @@ class SecuritySettingsPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
         leading: Icon(icon, color: AppColors.primary),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              subtitle,
-              style: TextStyle(color: Colors.grey[600]),
-            ),
+            Text(subtitle, style: TextStyle(color: Colors.grey[600])),
             const SizedBox(height: 4),
             Text(
               displayText,
@@ -229,14 +216,8 @@ class SecuritySettingsPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
         leading: Icon(icon, color: AppColors.primary),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(color: Colors.grey[600]),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+        subtitle: Text(subtitle, style: TextStyle(color: Colors.grey[600])),
         trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
       ),
@@ -264,10 +245,12 @@ class SecuritySettingsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: options.map((option) {
             final isSelected = option['value'] == currentValue;
-            
+
             return ListTile(
               title: Text(option['name']),
-              trailing: isSelected ? const Icon(Icons.check, color: AppColors.primary) : null,
+              trailing: isSelected
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
               onTap: () {
                 onChanged(option['value']);
                 Navigator.pop(context);
@@ -279,7 +262,10 @@ class SecuritySettingsPage extends StatelessWidget {
     );
   }
 
-  void _showChangePasswordDialog(BuildContext context, SettingsController controller) {
+  void _showChangePasswordDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     final currentPasswordController = TextEditingController();
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
@@ -366,7 +352,10 @@ class SecuritySettingsPage extends StatelessWidget {
     );
   }
 
-  void _showTrustedDevicesDialog(BuildContext context, SettingsController controller) {
+  void _showTrustedDevicesDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -379,11 +368,7 @@ class SecuritySettingsPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.devices,
-                        size: 64,
-                        color: Colors.grey,
-                      ),
+                      const Icon(Icons.devices, size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
                       Text(
                         'no_trusted_devices'.tr,
@@ -400,13 +385,22 @@ class SecuritySettingsPage extends StatelessWidget {
                   itemCount: controller.trustedDevices.length,
                   itemBuilder: (context, index) {
                     final deviceId = controller.trustedDevices[index];
-                    
+
                     return ListTile(
                       leading: const Icon(Icons.phone_android),
-                      title: Text('Device $deviceId'), // In real app, show device name
-                      subtitle: Text('added_on'.tr + ': ' + DateTime.now().toString().split(' ')[0]),
+                      title: Text(
+                        'Device $deviceId',
+                      ), // In real app, show device name
+                      subtitle: Text(
+                        'added_on'.tr +
+                            ': ' +
+                            DateTime.now().toString().split(' ')[0],
+                      ),
                       trailing: IconButton(
-                        icon: const Icon(Icons.remove_circle, color: Colors.red),
+                        icon: const Icon(
+                          Icons.remove_circle,
+                          color: Colors.red,
+                        ),
                         onPressed: () {
                           // Remove device from trusted list
                           controller.trustedDevices.remove(deviceId);
@@ -426,9 +420,12 @@ class SecuritySettingsPage extends StatelessWidget {
     );
   }
 
-  void _showSecurityLogsDialog(BuildContext context, SettingsController controller) {
+  void _showSecurityLogsDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
     controller.loadSecurityLogs();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -442,18 +439,11 @@ class SecuritySettingsPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.history,
-                      size: 64,
-                      color: Colors.grey,
-                    ),
+                    const Icon(Icons.history, size: 64, color: Colors.grey),
                     const SizedBox(height: 16),
                     Text(
                       'no_security_logs'.tr,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -465,7 +455,7 @@ class SecuritySettingsPage extends StatelessWidget {
               itemCount: controller.securityLogs.length,
               itemBuilder: (context, index) {
                 final log = controller.securityLogs[index];
-                
+
                 return ListTile(
                   leading: _getSecurityLogIcon(log.action),
                   title: Text(_getSecurityLogTitle(log.action)),
@@ -517,7 +507,7 @@ class SecuritySettingsPage extends StatelessWidget {
   String _formatDateTime(DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
-    
+
     if (difference.inDays > 0) {
       return '${difference.inDays} days ago'.tr;
     } else if (difference.inHours > 0) {

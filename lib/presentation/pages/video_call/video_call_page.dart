@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nerutalk/core/constants/app_colors.dart';
-import 'package:nerutalk/core/constants/app_strings.dart';
 import 'package:nerutalk/presentation/controllers/video_call_controller.dart';
 
 class VideoCallPage extends GetView<VideoCallController> {
@@ -11,21 +10,23 @@ class VideoCallPage extends GetView<VideoCallController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Obx(() => Stack(
-        children: [
-          // Video rendering area
-          _buildVideoArea(),
-          
-          // Controls overlay
-          _buildControlsOverlay(),
-          
-          // Top bar with participant info
-          _buildTopBar(),
-          
-          // Bottom controls
-          _buildBottomControls(),
-        ],
-      )),
+      body: Obx(
+        () => Stack(
+          children: [
+            // Video rendering area
+            _buildVideoArea(),
+
+            // Controls overlay
+            _buildControlsOverlay(),
+
+            // Top bar with participant info
+            _buildTopBar(),
+
+            // Bottom controls
+            _buildBottomControls(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -40,10 +41,7 @@ class VideoCallPage extends GetView<VideoCallController> {
                 child: Text(
                   'Video Stream Area\n(Agora RTC will render here)',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             )
@@ -69,7 +67,7 @@ class VideoCallPage extends GetView<VideoCallController> {
 
   Widget _buildControlsOverlay() {
     if (!controller.showControls.value) return const SizedBox.shrink();
-    
+
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -100,27 +98,32 @@ class VideoCallPage extends GetView<VideoCallController> {
                     width: 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: controller.callStatus.value == 'ongoing' 
-                          ? Colors.green 
+                      color: controller.callStatus.value == 'ongoing'
+                          ? Colors.green
                           : Colors.red,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Obx(() => Text(
-                    controller.callDuration.value,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                  Obx(
+                    () => Text(
+                      controller.callDuration.value,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
             ),
             const Spacer(),
             if (controller.participants.length > 2) ...[
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(20),
@@ -128,11 +131,7 @@ class VideoCallPage extends GetView<VideoCallController> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.people,
-                      color: Colors.white,
-                      size: 16,
-                    ),
+                    const Icon(Icons.people, color: Colors.white, size: 16),
                     const SizedBox(width: 4),
                     Text(
                       '${controller.participants.length}',
@@ -167,15 +166,15 @@ class VideoCallPage extends GetView<VideoCallController> {
               children: [
                 // Mute/Unmute Audio
                 _buildControlButton(
-                  icon: controller.isAudioEnabled.value 
-                      ? Icons.mic 
+                  icon: controller.isAudioEnabled.value
+                      ? Icons.mic
                       : Icons.mic_off,
                   onPressed: controller.toggleAudio,
-                  backgroundColor: controller.isAudioEnabled.value 
-                      ? Colors.grey[800] 
+                  backgroundColor: controller.isAudioEnabled.value
+                      ? Colors.grey[800]
                       : Colors.red,
                 ),
-                
+
                 // End Call
                 _buildControlButton(
                   icon: Icons.call_end,
@@ -183,15 +182,15 @@ class VideoCallPage extends GetView<VideoCallController> {
                   backgroundColor: Colors.red,
                   isLarge: true,
                 ),
-                
+
                 // Enable/Disable Video
                 _buildControlButton(
-                  icon: controller.isVideoEnabled.value 
-                      ? Icons.videocam 
+                  icon: controller.isVideoEnabled.value
+                      ? Icons.videocam
                       : Icons.videocam_off,
                   onPressed: controller.toggleVideo,
-                  backgroundColor: controller.isVideoEnabled.value 
-                      ? Colors.grey[800] 
+                  backgroundColor: controller.isVideoEnabled.value
+                      ? Colors.grey[800]
                       : Colors.red,
                 ),
               ],
@@ -210,7 +209,7 @@ class VideoCallPage extends GetView<VideoCallController> {
   }) {
     final size = isLarge ? 64.0 : 52.0;
     final iconSize = isLarge ? 32.0 : 24.0;
-    
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -220,11 +219,7 @@ class VideoCallPage extends GetView<VideoCallController> {
           color: backgroundColor ?? Colors.grey[800],
           shape: BoxShape.circle,
         ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: iconSize,
-        ),
+        child: Icon(icon, color: Colors.white, size: iconSize),
       ),
     );
   }

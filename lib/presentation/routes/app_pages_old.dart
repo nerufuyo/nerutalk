@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:developer' as developer;
 import 'app_routes.dart';
 import '../pages/splash/splash_page.dart';
 import '../pages/splash/splash_binding.dart';
@@ -171,7 +172,7 @@ class AuthMiddleware extends GetMiddleware {
   GetPage? onPageCalled(GetPage? page) {
     // Log page access for analytics
     if (page != null) {
-      print('📱 Navigating to: ${page.name}');
+      developer.log('Navigating to: ${page.name}', name: 'AppRouter');
     }
     return page;
   }
@@ -197,7 +198,7 @@ class AuthMiddleware extends GetMiddleware {
   @override
   void onPageDispose() {
     // Cleanup when page is disposed
-    print('📱 Page disposed');
+    developer.log('Page disposed', name: 'AppRouter');
   }
 }
 
@@ -251,9 +252,9 @@ class DevelopmentMiddleware extends GetMiddleware {
   GetPage? onPageCalled(GetPage? page) {
     // Log detailed navigation info in debug mode
     if (page != null) {
-      print('🔧 [DEBUG] Page: ${page.name}');
-      print('🔧 [DEBUG] Bindings: ${page.binding}');
-      print('🔧 [DEBUG] Transition: ${page.transition}');
+      developer.log('Page: ${page.name}', name: 'Debug');
+      developer.log('Bindings: ${page.binding}', name: 'Debug');
+      developer.log('Transition: ${page.transition}', name: 'Debug');
     }
     return page;
   }

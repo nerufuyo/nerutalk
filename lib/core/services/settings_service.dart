@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import '../config/app_config.dart';
 import 'network_service.dart';
 import 'auth_service.dart';
 import '../../domain/models/settings_models.dart';
@@ -59,17 +58,19 @@ class SettingsService extends GetxService {
   Future<AppSettings?> loadAppSettings() async {
     try {
       _isLoadingAppSettings.value = true;
-      
+
       final response = await _networkService.get('/settings/app');
-      
+
       if (response.isSuccess && response.data != null) {
         final settings = AppSettings.fromJson(response.data!);
         _appSettings.value = settings;
         return settings;
       }
-      
+
       // Return default settings if none found
-      final defaultSettings = AppSettings(userId: _authService.currentUser?.id ?? '');
+      final defaultSettings = AppSettings(
+        userId: _authService.currentUser?.id ?? '',
+      );
       _appSettings.value = defaultSettings;
       return defaultSettings;
     } catch (e) {
@@ -87,14 +88,17 @@ class SettingsService extends GetxService {
         '/settings/app',
         data: settings.toJson(),
       );
-      
+
       if (response.isSuccess) {
         _appSettings.value = settings.copyWith(updatedAt: DateTime.now());
         Get.snackbar('Success', 'App settings updated successfully');
         return true;
       }
-      
-      Get.snackbar('Error', response.message ?? 'Failed to update app settings');
+
+      Get.snackbar(
+        'Error',
+        response.message ?? 'Failed to update app settings',
+      );
       return false;
     } catch (e) {
       Get.snackbar('Error', 'Failed to update app settings: ${e.toString()}');
@@ -106,17 +110,19 @@ class SettingsService extends GetxService {
   Future<PrivacySettings?> loadPrivacySettings() async {
     try {
       _isLoadingPrivacySettings.value = true;
-      
+
       final response = await _networkService.get('/settings/privacy');
-      
+
       if (response.isSuccess && response.data != null) {
         final settings = PrivacySettings.fromJson(response.data!);
         _privacySettings.value = settings;
         return settings;
       }
-      
+
       // Return default settings if none found
-      final defaultSettings = PrivacySettings(userId: _authService.currentUser?.id ?? '');
+      final defaultSettings = PrivacySettings(
+        userId: _authService.currentUser?.id ?? '',
+      );
       _privacySettings.value = defaultSettings;
       return defaultSettings;
     } catch (e) {
@@ -134,17 +140,23 @@ class SettingsService extends GetxService {
         '/settings/privacy',
         data: settings.toJson(),
       );
-      
+
       if (response.isSuccess) {
         _privacySettings.value = settings.copyWith(updatedAt: DateTime.now());
         Get.snackbar('Success', 'Privacy settings updated successfully');
         return true;
       }
-      
-      Get.snackbar('Error', response.message ?? 'Failed to update privacy settings');
+
+      Get.snackbar(
+        'Error',
+        response.message ?? 'Failed to update privacy settings',
+      );
       return false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update privacy settings: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to update privacy settings: ${e.toString()}',
+      );
       return false;
     }
   }
@@ -153,21 +165,26 @@ class SettingsService extends GetxService {
   Future<SecuritySettings?> loadSecuritySettings() async {
     try {
       _isLoadingSecuritySettings.value = true;
-      
+
       final response = await _networkService.get('/settings/security');
-      
+
       if (response.isSuccess && response.data != null) {
         final settings = SecuritySettings.fromJson(response.data!);
         _securitySettings.value = settings;
         return settings;
       }
-      
+
       // Return default settings if none found
-      final defaultSettings = SecuritySettings(userId: _authService.currentUser?.id ?? '');
+      final defaultSettings = SecuritySettings(
+        userId: _authService.currentUser?.id ?? '',
+      );
       _securitySettings.value = defaultSettings;
       return defaultSettings;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load security settings: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to load security settings: ${e.toString()}',
+      );
       return null;
     } finally {
       _isLoadingSecuritySettings.value = false;
@@ -181,17 +198,23 @@ class SettingsService extends GetxService {
         '/settings/security',
         data: settings.toJson(),
       );
-      
+
       if (response.isSuccess) {
         _securitySettings.value = settings.copyWith(updatedAt: DateTime.now());
         Get.snackbar('Success', 'Security settings updated successfully');
         return true;
       }
-      
-      Get.snackbar('Error', response.message ?? 'Failed to update security settings');
+
+      Get.snackbar(
+        'Error',
+        response.message ?? 'Failed to update security settings',
+      );
       return false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update security settings: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to update security settings: ${e.toString()}',
+      );
       return false;
     }
   }
@@ -200,17 +223,19 @@ class SettingsService extends GetxService {
   Future<AccountSettings?> loadAccountSettings() async {
     try {
       _isLoadingAccountSettings.value = true;
-      
+
       final response = await _networkService.get('/settings/account');
-      
+
       if (response.isSuccess && response.data != null) {
         final settings = AccountSettings.fromJson(response.data!);
         _accountSettings.value = settings;
         return settings;
       }
-      
+
       // Return default settings if none found
-      final defaultSettings = AccountSettings(userId: _authService.currentUser?.id ?? '');
+      final defaultSettings = AccountSettings(
+        userId: _authService.currentUser?.id ?? '',
+      );
       _accountSettings.value = defaultSettings;
       return defaultSettings;
     } catch (e) {
@@ -228,17 +253,23 @@ class SettingsService extends GetxService {
         '/settings/account',
         data: settings.toJson(),
       );
-      
+
       if (response.isSuccess) {
         _accountSettings.value = settings.copyWith(updatedAt: DateTime.now());
         Get.snackbar('Success', 'Account settings updated successfully');
         return true;
       }
-      
-      Get.snackbar('Error', response.message ?? 'Failed to update account settings');
+
+      Get.snackbar(
+        'Error',
+        response.message ?? 'Failed to update account settings',
+      );
       return false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update account settings: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to update account settings: ${e.toString()}',
+      );
       return false;
     }
   }
@@ -247,7 +278,9 @@ class SettingsService extends GetxService {
   Future<bool> changeLanguage(String languageCode) async {
     try {
       if (_appSettings.value != null) {
-        final updatedSettings = _appSettings.value!.copyWith(language: languageCode);
+        final updatedSettings = _appSettings.value!.copyWith(
+          language: languageCode,
+        );
         return await updateAppSettings(updatedSettings);
       }
       return false;
@@ -278,10 +311,11 @@ class SettingsService extends GetxService {
         '/settings/privacy/block',
         data: {'user_id': userId},
       );
-      
+
       if (response.isSuccess && _privacySettings.value != null) {
-        final updatedBlockedUsers = List<String>.from(_privacySettings.value!.blockedUsers)
-          ..add(userId);
+        final updatedBlockedUsers = List<String>.from(
+          _privacySettings.value!.blockedUsers,
+        )..add(userId);
         final updatedSettings = _privacySettings.value!.copyWith(
           blockedUsers: updatedBlockedUsers,
           updatedAt: DateTime.now(),
@@ -290,7 +324,7 @@ class SettingsService extends GetxService {
         Get.snackbar('Success', 'User blocked successfully');
         return true;
       }
-      
+
       Get.snackbar('Error', response.message ?? 'Failed to block user');
       return false;
     } catch (e) {
@@ -306,10 +340,11 @@ class SettingsService extends GetxService {
         '/settings/privacy/unblock',
         data: {'user_id': userId},
       );
-      
+
       if (response.isSuccess && _privacySettings.value != null) {
-        final updatedBlockedUsers = List<String>.from(_privacySettings.value!.blockedUsers)
-          ..remove(userId);
+        final updatedBlockedUsers = List<String>.from(
+          _privacySettings.value!.blockedUsers,
+        )..remove(userId);
         final updatedSettings = _privacySettings.value!.copyWith(
           blockedUsers: updatedBlockedUsers,
           updatedAt: DateTime.now(),
@@ -318,7 +353,7 @@ class SettingsService extends GetxService {
         Get.snackbar('Success', 'User unblocked successfully');
         return true;
       }
-      
+
       Get.snackbar('Error', response.message ?? 'Failed to unblock user');
       return false;
     } catch (e) {
@@ -330,8 +365,10 @@ class SettingsService extends GetxService {
   /// Enable two-factor authentication
   Future<bool> enableTwoFactorAuth() async {
     try {
-      final response = await _networkService.post('/settings/security/2fa/enable');
-      
+      final response = await _networkService.post(
+        '/settings/security/2fa/enable',
+      );
+
       if (response.isSuccess && _securitySettings.value != null) {
         final updatedSettings = _securitySettings.value!.copyWith(
           twoFactorAuth: true,
@@ -341,11 +378,17 @@ class SettingsService extends GetxService {
         Get.snackbar('Success', 'Two-factor authentication enabled');
         return true;
       }
-      
-      Get.snackbar('Error', response.message ?? 'Failed to enable two-factor authentication');
+
+      Get.snackbar(
+        'Error',
+        response.message ?? 'Failed to enable two-factor authentication',
+      );
       return false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to enable two-factor authentication: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to enable two-factor authentication: ${e.toString()}',
+      );
       return false;
     }
   }
@@ -353,8 +396,10 @@ class SettingsService extends GetxService {
   /// Disable two-factor authentication
   Future<bool> disableTwoFactorAuth() async {
     try {
-      final response = await _networkService.post('/settings/security/2fa/disable');
-      
+      final response = await _networkService.post(
+        '/settings/security/2fa/disable',
+      );
+
       if (response.isSuccess && _securitySettings.value != null) {
         final updatedSettings = _securitySettings.value!.copyWith(
           twoFactorAuth: false,
@@ -364,17 +409,26 @@ class SettingsService extends GetxService {
         Get.snackbar('Success', 'Two-factor authentication disabled');
         return true;
       }
-      
-      Get.snackbar('Error', response.message ?? 'Failed to disable two-factor authentication');
+
+      Get.snackbar(
+        'Error',
+        response.message ?? 'Failed to disable two-factor authentication',
+      );
       return false;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to disable two-factor authentication: ${e.toString()}');
+      Get.snackbar(
+        'Error',
+        'Failed to disable two-factor authentication: ${e.toString()}',
+      );
       return false;
     }
   }
 
   /// Change password
-  Future<bool> changePassword(String currentPassword, String newPassword) async {
+  Future<bool> changePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
     try {
       final response = await _networkService.post(
         '/settings/security/change-password',
@@ -383,7 +437,7 @@ class SettingsService extends GetxService {
           'new_password': newPassword,
         },
       );
-      
+
       if (response.isSuccess && _securitySettings.value != null) {
         final updatedSettings = _securitySettings.value!.copyWith(
           lastPasswordChange: DateTime.now(),
@@ -393,7 +447,7 @@ class SettingsService extends GetxService {
         Get.snackbar('Success', 'Password changed successfully');
         return true;
       }
-      
+
       Get.snackbar('Error', response.message ?? 'Failed to change password');
       return false;
     } catch (e) {
@@ -405,14 +459,16 @@ class SettingsService extends GetxService {
   /// Deactivate account
   Future<bool> deactivateAccount() async {
     try {
-      final response = await _networkService.post('/settings/account/deactivate');
-      
+      final response = await _networkService.post(
+        '/settings/account/deactivate',
+      );
+
       if (response.isSuccess) {
         Get.snackbar('Success', 'Account deactivated successfully');
         await _authService.logout();
         return true;
       }
-      
+
       Get.snackbar('Error', response.message ?? 'Failed to deactivate account');
       return false;
     } catch (e) {
@@ -425,13 +481,13 @@ class SettingsService extends GetxService {
   Future<bool> deleteAccount() async {
     try {
       final response = await _networkService.delete('/settings/account');
-      
+
       if (response.isSuccess) {
         Get.snackbar('Success', 'Account deleted successfully');
         await _authService.logout();
         return true;
       }
-      
+
       Get.snackbar('Error', response.message ?? 'Failed to delete account');
       return false;
     } catch (e) {
@@ -444,12 +500,15 @@ class SettingsService extends GetxService {
   Future<bool> exportUserData() async {
     try {
       final response = await _networkService.post('/settings/account/export');
-      
+
       if (response.isSuccess) {
-        Get.snackbar('Success', 'Data export initiated. You will receive an email when ready.');
+        Get.snackbar(
+          'Success',
+          'Data export initiated. You will receive an email when ready.',
+        );
         return true;
       }
-      
+
       Get.snackbar('Error', response.message ?? 'Failed to export data');
       return false;
     } catch (e) {
@@ -462,14 +521,14 @@ class SettingsService extends GetxService {
   Future<List<SecurityLog>> getSecurityLogs() async {
     try {
       final response = await _networkService.get('/settings/security/logs');
-      
+
       if (response.isSuccess && response.data != null) {
         final logs = (response.data!['logs'] as List)
             .map((log) => SecurityLog.fromJson(log))
             .toList();
         return logs;
       }
-      
+
       return [];
     } catch (e) {
       Get.snackbar('Error', 'Failed to load security logs: ${e.toString()}');

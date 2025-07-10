@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer' as developer;
 import '../../../core/services/auth_service.dart';
-import '../../../core/services/network_service.dart';
 import '../../../core/config/app_config.dart';
 import '../../routes/app_routes.dart';
 
@@ -12,11 +12,10 @@ class SplashController extends GetxController {
   final RxBool isLoading = true.obs;
   final RxString errorMessage = ''.obs;
   final RxString loadingMessage = 'Initializing...'.obs;
-  
+
   // Services
   late AuthService _authService;
-  late NetworkService _networkService;
-  
+
   @override
   void onInit() {
     super.onInit();
@@ -27,7 +26,6 @@ class SplashController extends GetxController {
   /// Initialize required services
   void _initializeServices() {
     _authService = Get.find<AuthService>();
-    _networkService = Get.find<NetworkService>();
   }
 
   /// Start app initialization process
@@ -94,7 +92,11 @@ class SplashController extends GetxController {
     } catch (e) {
       // Network issues are not critical for app startup
       // The app can work in offline mode
-      print('Network check warning: $e');
+      developer.log(
+        'Network check warning: $e',
+        name: 'SplashController',
+        level: 900,
+      );
     }
   }
 
@@ -112,9 +114,16 @@ class SplashController extends GetxController {
   Future<void> _checkAuthenticationStatus() async {
     try {
       final isAuthenticated = await _authService.isAuthenticated();
-      print('User authentication status: $isAuthenticated');
+      developer.log(
+        'User authentication status: $isAuthenticated',
+        name: 'SplashController',
+      );
     } catch (e) {
-      print('Authentication check warning: $e');
+      developer.log(
+        'Authentication check warning: $e',
+        name: 'SplashController',
+        level: 900,
+      );
     }
   }
 
@@ -124,7 +133,11 @@ class SplashController extends GetxController {
       // TODO: Load theme, language, notification settings, etc.
       await Future.delayed(const Duration(milliseconds: 100));
     } catch (e) {
-      print('Preferences loading warning: $e');
+      developer.log(
+        'Preferences loading warning: $e',
+        name: 'SplashController',
+        level: 900,
+      );
     }
   }
 
@@ -134,7 +147,11 @@ class SplashController extends GetxController {
       // TODO: Check for app updates from store or server
       await Future.delayed(const Duration(milliseconds: 100));
     } catch (e) {
-      print('Update check warning: $e');
+      developer.log(
+        'Update check warning: $e',
+        name: 'SplashController',
+        level: 900,
+      );
     }
   }
 
@@ -165,7 +182,8 @@ class SplashController extends GetxController {
   Future<bool> _isFirstTimeUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final onboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
+      final onboardingCompleted =
+          prefs.getBool('onboarding_completed') ?? false;
       return !onboardingCompleted;
     } catch (e) {
       // If there's an error, assume it's first time
@@ -177,7 +195,11 @@ class SplashController extends GetxController {
   void _handleInitializationError(dynamic error) {
     isLoading.value = false;
     errorMessage.value = _getErrorMessage(error);
-    print('Initialization error: $error');
+    developer.log(
+      'Initialization error: $error',
+      name: 'SplashController',
+      level: 1000,
+    );
   }
 
   /// Get user-friendly error message
@@ -196,7 +218,7 @@ class SplashController extends GetxController {
     errorMessage.value = '';
     isLoading.value = true;
     loadingMessage.value = 'Retrying...';
-    
+
     await Future.delayed(const Duration(milliseconds: 500));
     await _startInitialization();
   }
@@ -225,8 +247,8 @@ class SplashController extends GetxController {
   /// Check if critical error occurred
   bool get hasCriticalError {
     return errorMessage.value.contains('Configuration') ||
-           errorMessage.value.contains('Local storage') ||
-           errorMessage.value.contains('Navigation');
+        errorMessage.value.contains('Local storage') ||
+        errorMessage.value.contains('Navigation');
   }
 
   /// Get current initialization step
